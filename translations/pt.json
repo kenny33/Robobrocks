@@ -1,0 +1,673 @@
+{
+  "common": {
+    "maintenance_success_title": "Manutenção Boks",
+    "maintenance_success_msg": "Limpeza de códigos mestres concluída.\n{range} índices verificados a partir de {start_index}.",
+    "nfc_tag_found_title": "Tag NFC Boks Descoberta",
+    "nfc_tag_found_msg": "Uma nova tag NFC com UID {uid} foi detetada na Boks.",
+    "nfc_tag_found_msg_named": "A tag {name} ({uid}) foi lida na Boks.",
+    "nfc_tag_found_register_help": "Utilize o serviço boks.nfc_register_tag para associá-la a um nome.",
+    "nfc_tag_exists_title": "Tag NFC Boks Já Registada",
+    "nfc_tag_exists_msg": "A tag NFC com UID {uid} já está registada nesta Boks.",
+    "nfc_tag_exists_msg_named": "A tag {name} ({uid}) já está registada nesta Boks.",
+    "nfc_tag_exists_msg_unknown": "A tag NFC apresentada já está registada nesta Boks.",
+    "nfc_scan_started_title": "Digitalização NFC Ativada",
+    "nfc_scan_started_msg": "A Boks está em modo de escuta. Apresente a sua tag NFC imediatamente (timeout 6s).",
+    "nfc_scan_timeout_title": "Digitalização NFC Terminada",
+    "nfc_scan_timeout_msg": "O tempo de espera de 6 segundos expirou. Nenhuma tag detetada.",
+    "nfc_register_error_title": "Erro de Registo",
+    "nfc_register_error_msg": "Falha ao registar a tag {uid}. O dispositivo não respondeu.",
+    "maintenance_progress_msg": "Limpando índice {current}/{total} (Sucesso : {cleaned})",
+    "maintenance_idle_msg": "Inativo",
+    "maintenance_finished_msg": "Limpeza terminada (Sucesso : {cleaned})"
+  },
+  "config": {
+    "step": {
+      "cloud": {
+        "title": "Login Boks",
+        "description": "Introduza as credenciais da sua aplicação Boks para recuperar as chaves do seu dispositivo automaticamente.",
+        "data": {
+          "username": "E-mail",
+          "password": "Palavra-passe"
+        }
+      },
+      "device_selection": {
+        "title": "Selecione a sua Boks",
+        "description": "Selecione qual Boks deseja adicionar.",
+        "data": {
+          "device": "Dispositivo"
+        }
+      },
+      "user": {
+        "title": "Configuração Manual",
+        "description": "Introduza as suas credenciais Boks.\n\n**Ordem de preferência:**\n1. **Chave Mestre (64 car.):** Acesso total.\n2. **Chave de Configuração (8 car.):** Acesso padrão.",
+        "data": {
+          "mac": "Endereço Bluetooth",
+          "master_code": "Código Mestre",
+          "credential": "Credencial (Chave de Configuração ou Chave Mestre)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Não foi possível ligar à API Boks.",
+      "invalid_auth": "E-mail ou palavra-passe inválidos.",
+      "boks_not_found": "Nenhuma Boks encontrada nesta conta correspondente ao endereço MAC.",
+      "cannot_retrieve_key": "Não foi possível recuperar a chave de configuração da nuvem.",
+      "device_not_found": "Dispositivo não encontrado na lista.",
+      "device_not_in_cache": "Dispositivo não encontrado na cache Bluetooth. Nenhum caminho conectável disponível.",
+      "no_devices_found": "Nenhum dispositivo Boks encontrado nesta conta.",
+      "connection_error": "Erro de ligação ao obter os dispositivos.",
+      "invalid_credential_format": "Formato de credencial inválido. Deve ter 8/64 car. hex.",
+      "invalid_master_code_format": "Formato de código mestre inválido. Deve ser um código de 6 dígitos (0-9, A, B).",
+      "unknown": "Ocorreu um erro desconhecido.",
+      "pin_code_invalid_length": "O código PIN deve ter 6 caracteres.",
+      "pin_code_invalid": "Código PIN inválido.",
+      "unauthorized": "Não autorizado.",
+      "config_key_required": "Chave de configuração necessária para esta operação.",
+      "invalid_code_format": "Formato de código inválido (deve ter 6 caracteres entre 0-9, A, B).",
+      "create_code_failed": "Falha ao criar código (o dispositivo devolveu um erro).",
+      "change_master_code_failed": "Falha ao alterar código mestre (o dispositivo devolveu um erro).",
+      "unknown_code_type": "Tipo de código desconhecido.",
+      "unknown_device": "O dispositivo não é visto pelo adaptador Bluetooth.",
+      "not_connectable": "O dispositivo detetado não é conectável (provavelmente através de um proxy passivo).",
+      "todo_entity_not_found_for_device": "Nenhuma entidade Todo encontrada para o dispositivo {target_device_id}.",
+      "target_devices_not_boks": "Os dispositivos de destino {device_ids} não são dispositivos Boks.",
+      "target_entities_not_boks": "As entidades de destino {entity_ids} pertencem a dispositivos não Boks.",
+      "target_device_missing": "Dispositivo Boks de destino não encontrado ou não especificado. Por favor, especifique um device_id ou entity_id.",
+      "multiple_devices_found": "Vários dispositivos Boks encontrados. Por favor, especifique uma entidade ou dispositivo de destino.",
+      "no_devices_configured": "Nenhum dispositivo Boks configurado.",
+      "cannot_resolve_todo": "Não foi possível resolver uma lista Todo Boks de destino.",
+      "todo_integration_not_loaded": "Integração Todo não carregada.",
+      "todo_entity_not_found": "Entidade Todo {target_entity_id} não encontrada ou não carregada.",
+      "config_key_invalid_length": "A chave de configuração deve ter exatamente 8 caracteres.",
+      "ble_client_none": "O cliente BLE é nulo, impossível enviar o comando.",
+      "timeout_waiting_response": "Tempo limite esgotado a aguardar resposta ao opcode {opcode}.",
+      "ble_error": "Erro BLE: {error}",
+      "ble_internal_error": "Erro interno BLE: {error}",
+      "entity_not_parcel_list": "A entidade {target_entity_id} não é uma lista de encomendas Boks.",
+      "maintenance_already_running": "Já existe uma tarefa de manutenção em curso. Por favor, aguarde que termine.",
+      "delete_code_failed": "Falha ao eliminar código (o dispositivo devolveu um erro).",
+      "set_configuration_failed": "Falha ao definir configuração {config_type} (o dispositivo devolveu um erro).",
+      "laposte_firmware_version_required": "A versão do firmware deve ser superior a {required_version} para ativar a funcionalidade La Poste. Versão atual: {current_version}",
+      "firmware_version_required": "A versão do firmware deve ser superior a {required_version} para utilizar esta funcionalidade. Versão atual: {current_version}",
+      "firmware_update_failed": "Falha ao iniciar a atualização do firmware para a versão {version}",
+      "door_opened_recently": "A porta foi aberta recentemente. Por favor, aguarde {seconds} segundos antes de abrir novamente.",
+      "opening_failed_no_code": "Falha na abertura: nenhum código PIN fornecido, nenhum código mestre armazenado e não foi possível gerar um PIN de uso único.",
+      "opening_failed_no_code_no_key": "Falha na abertura: nenhum código PIN fornecido, nenhum código mestre armazenado e não foi possível gerar um PIN de uso único (nenhuma chave de configuração disponível).",
+      "hardware_unsupported": "A funcionalidade {feature} requer uma Boks v{required_hw} ou superior. A sua versão atual é v{current_hw}.",
+      "firmware_update_required": "A funcionalidade {feature} requer a versão de firmware {required_sw}. A sua versão atual é {current_sw}.",
+      "unexpected_create_code_error": "Erro inesperado ao criar o código: {error}",
+      "unexpected_delete_code_error": "Erro inesperado ao eliminar o código: {error}",
+      "unexpected_set_configuration_error": "Erro inesperado ao alterar a configuração: {error}",
+      "unexpected_register_tag_error": "Erro inesperado ao registar a tag: {error}",
+      "unexpected_unregister_tag_error": "Erro inesperado ao remover a tag: {error}"
+    },
+    "abort": {
+      "already_configured": "Esta Boks já está configurada.",
+      "not_connectable": "O dispositivo detetado não é conectável (provavelmente através de um proxy passivo).",
+      "cannot_connect": "Não foi possível ligar ao dispositivo. Verifique se está ao alcance e conectável."
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Não foi possível ligar à API Boks."
+    },
+    "invalid_auth": {
+      "message": "E-mail ou palavra-passe inválidos."
+    },
+    "boks_not_found": {
+      "message": "Nenhuma Boks encontrada nesta conta correspondente ao endereço MAC."
+    },
+    "cannot_retrieve_key": {
+      "message": "Não foi possível recuperar a chave de configuração da nuvem."
+    },
+    "device_not_found": {
+      "message": "Dispositivo não encontrado na lista."
+    },
+    "device_not_in_cache": {
+      "message": "Dispositivo não encontrado na cache Bluetooth. Nenhum caminho conectável disponível."
+    },
+    "no_devices_found": {
+      "message": "Nenhum dispositivo Boks encontrado nesta conta."
+    },
+    "connection_error": {
+      "message": "Erro de ligação ao obter os dispositivos."
+    },
+    "invalid_credential_format": {
+      "message": "Formato de credencial inválido. Deve ter 8/64 car. hex."
+    },
+    "invalid_master_code_format": {
+      "message": "Formato de código mestre inválido. Deve ser um código de 6 dígitos (0-9, A, B)."
+    },
+    "unknown": {
+      "message": "Ocorreu um erro desconhecido."
+    },
+    "pin_code_invalid_length": {
+      "message": "O código PIN deve ter 6 caracteres."
+    },
+    "pin_code_invalid": {
+      "message": "Código PIN inválido."
+    },
+    "master_key_required": {
+      "message": "A Chave Mestra é necessária para gerar códigos PIN. Por favor, verifique a configuração da integração."
+    },
+    "master_key_invalid": {
+      "message": "A Chave Mestra configurada é inválida (deve ter 32 bytes hex)."
+    },
+    "unauthorized": {
+      "message": "Não autorizado."
+    },
+    "config_key_required": {
+      "message": "Chave de configuração necessária para esta operação."
+    },
+    "invalid_code_format": {
+      "message": "Formato de código inválido (deve ter 6 caracteres entre 0-9, A, B)."
+    },
+    "create_code_failed": {
+      "message": "Falha ao criar código (o dispositivo devolveu um erro)."
+    },
+    "change_master_code_failed": {
+      "message": "Falha ao alterar código mestre (o dispositivo devolveu um erro)."
+    },
+    "unknown_code_type": {
+      "message": "Tipo de código desconhecido."
+    },
+    "unknown_device": {
+      "message": "O dispositivo não é visto pelo adaptador Bluetooth."
+    },
+    "not_connectable": {
+      "message": "O dispositivo detetado não é conectável (provavelmente através de um proxy passivo)."
+    },
+    "todo_entity_not_found_for_device": {
+      "message": "Nenhuma entidade Todo encontrada para o dispositivo {target_device_id}."
+    },
+    "target_devices_not_boks": {
+      "message": "Os dispositivos de destino {device_ids} não são dispositivos Boks."
+    },
+    "target_entities_not_boks": {
+      "message": "As entidades de destino {entity_ids} pertencem a dispositivos não Boks."
+    },
+    "target_device_missing": {
+      "message": "Dispositivo Boks de destino não encontrado ou não especificado. Por favor, especifique um device_id ou entity_id."
+    },
+    "multiple_devices_found": {
+      "message": "Vários dispositivos Boks encontrados. Por favor, especifique uma entidade ou dispositivo de destino."
+    },
+    "no_devices_configured": {
+      "message": "Nenhum dispositivo Boks configurado."
+    },
+    "cannot_resolve_todo": {
+      "message": "Não foi possível resolver uma lista Todo Boks de destino."
+    },
+    "todo_integration_not_loaded": {
+      "message": "Integração Todo não carregada."
+    },
+    "todo_entity_not_found": {
+      "message": "Entidade Todo {target_entity_id} não encontrada ou não carregada."
+    },
+    "config_key_invalid_length": {
+      "message": "A chave de configuração deve ter exatamente 8 caracteres."
+    },
+    "ble_client_none": {
+      "message": "O cliente BLE é nulo, impossível enviar o comando."
+    },
+    "timeout_waiting_response": {
+      "message": "Tempo limite esgotado a aguardar resposta ao opcode {opcode}."
+    },
+    "ble_error": {
+      "message": "Erro BLE: {error}"
+    },
+    "ble_internal_error": {
+      "message": "Erro interno BLE: {error}"
+    },
+    "entity_not_parcel_list": {
+      "message": "A entidade {target_entity_id} não é uma lista de encomendas Boks."
+    },
+    "maintenance_already_running": {
+      "message": "Já existe uma tarefa de manutenção em curso. Por favor, aguarde que termine."
+    },
+    "delete_code_failed": {
+      "message": "Falha ao eliminar código (o dispositivo devolveu um erro)."
+    },
+    "set_configuration_failed": {
+      "message": "Falha ao definir configuração {config_type} (o dispositivo devolveu um erro)."
+    },
+    "laposte_firmware_version_required": {
+      "message": "A versão do firmware deve ser superior a {required_version} para ativar a funcionalidade La Poste. Versão atual: {current_version}"
+    },
+    "firmware_version_required": {
+      "message": "A versão do firmware deve ser superior a {required_version} para utilizar esta funcionalidade. Versão atual: {current_version}"
+    },
+    "firmware_update_failed": {
+      "message": "Falha ao iniciar a atualização do firmware para a versão {version}"
+    },
+    "door_opened_recently": {
+      "message": "A porta foi aberta recentemente. Por favor, aguarde {seconds} segundos antes de abrir novamente."
+    },
+    "opening_failed_no_code": {
+      "message": "Falha na abertura: nenhum código PIN fornecido, nenhum código mestre armazenado e não foi possível gerar um PIN de uso único."
+    },
+    "opening_failed_no_code_no_key": {
+      "message": "Falha na abertura: nenhum código PIN fornecido, nenhum código mestre armazenado e não foi possível gerar um PIN de uso único (nenhuma chave de configuração disponível)."
+    },
+    "hardware_unsupported": {
+      "message": "A função {feature} requer uma Boks v{required_hw} ou superior. A sua versão atual é v{current_hw}."
+    },
+    "firmware_update_required": {
+      "message": "A função {feature} requer a versão de firmware {required_sw}. A sua versão atual é {current_sw}."
+    },
+    "item_not_found": {
+      "message": "Item não encontrado"
+    },
+    "operation_timed_out": {
+      "message": "A operação expirou após {seconds} segundos."
+    },
+    "busy": {
+      "message": "Dispositivo ocupado: outra operação já está a escutar notificações."
+    },
+    "lock_entity_not_found": {
+      "message": "Entidade de bloqueio não encontrada para este dispositivo."
+    },
+    "invalid_uid_format": {
+      "message": "Formato de UID NFC inválido."
+    },
+    "invalid_master_code_index": {
+      "message": "Índice de código mestre inválido (deve estar entre 0 e 255)."
+    },
+    "nfc_tag_already_exists": {
+      "message": "Esta tag NFC já está registada na Boks."
+    },
+    "maintenance_failed_msg": {
+      "message": "Manutenção falhou : {error}"
+    },
+    "maintenance_error_title": {
+      "message": "Erro de manutenção Boks"
+    },
+    "maintenance_error_msg": {
+      "message": "Limpeza de códigos mestres falhou no índice {current_idx}.\nErro: {error}"
+    },
+    "fw_hw_rev_unknown": {
+      "message": "Não foi possível determinar a revisão interna do firmware (ID do hardware). Certifique-se de que o dispositivo está acessível."
+    },
+    "fw_hw_unsupported": {
+      "message": "Hardware não suportado ou revisão desconhecida: {revision}"
+    },
+    "fw_version_not_found": {
+      "message": "Versão {version} não disponível para o hardware {revision}"
+    },
+    "fw_download_failed": {
+      "message": "Falha ao descarregar o firmware: {status}"
+    },
+    "fw_downgrade_blocked": {
+      "message": "Não é possível gerar a atualização para a versão {target_version} porque é mais antiga do que a versão instalada atualmente {current_version}. Downgrades não são suportados."
+    },
+    "fw_update_package_ready_msg": {
+      "message": "O pacote de atualização para {target_version} está pronto:\n{url}"
+    },
+    "fw_update_package_ready_title": {
+      "message": "Atualização do Boks {target_version} Pronta"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Intervalo de polling (minutos)",
+          "full_refresh_interval": "Intervalo de atualização completa (horas)",
+          "master_code": "Código Mestre para abertura (opcional)",
+          "anonymize_logs": "Anonimizar registos (Substitui chaves e PINs por valores fictícios)"
+        },
+        "description": "Configure com que frequência o Home Assistant se liga à Boks para atualizar o estado."
+      }
+    }
+  },
+  "selector": {
+    "setup_method": {
+      "options": {
+        "cloud": "Login na Nuvem (Automático - requer credenciais válidas para a aplicação oficial Boks)",
+        "manual": "Entrada Manual"
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_logs": {
+        "name": "Sincronizar registos"
+      }
+    },
+    "lock": {
+      "door": {
+        "name": "Porta"
+      }
+    },
+    "sensor": {
+      "battery": {
+        "name": "Bateria"
+      },
+      "last_event": {
+        "name": "Último evento",
+        "state": {
+          "no_events": "Sem eventos",
+          "code_ble_valid": "Código BLE válido utilizado",
+          "code_key_valid": "Código de teclado válido utilizado",
+          "code_ble_invalid": "Comando BLE inválido",
+          "code_key_invalid": "Código de teclado inválido utilizado",
+          "door_closed": "Porta fechada",
+          "door_opened": "Porta aberta",
+          "history_erase": "Histórico limpo",
+          "power_off": "Desligado",
+          "block_reset": "Reset de bloco",
+          "power_on": "Ligado",
+          "ble_reboot": "Reinício BLE",
+          "scale_measure": "Medição contínua da balança",
+          "key_opening": "Abertura com chave",
+          "error": "Erro (Diagnóstico)",
+          "nfc_opening": "Abertura NFC",
+          "nfc_tag_registering_scan": "Digitalização de tag NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (Terciário)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Evento desconhecido",
+          "diagnostic_error_bc": "Erro interno MFRC630 (0xBC)",
+          "diagnostic_error_integrity": "Erro de integridade (CRC/Paridade)",
+          "diagnostic_error_no_tag": "Nenhuma tag detetada / Timeout",
+          "diagnostic_error_collision": "Detetada colisão de tags",
+          "diagnostic_error_buffer": "Overflow de buffer",
+          "diagnostic_error_unknown": "Erro técnico desconhecido",
+          "power_off_reason_1": "Reset de hardware (PIN)",
+          "power_off_reason_2": "Watchdog (Reinício automático)",
+          "power_off_reason_3": "Reset de software",
+          "power_off_reason_4": "Bloqueio de sistema (Lockup)",
+          "power_off_reason_5": "Ligação de energia",
+          "power_off_reason_6": "Despertar por NFC",
+          "power_off_reason_7": "Despertar por desligamento de sistema",
+          "power_off_reason_8": "Despertar por LPCOMP"
+        }
+      },
+      "master_codes_count": {
+        "name": "Códigos mestres"
+      },
+      "single_use_codes_count": {
+        "name": "Códigos de uso único"
+      },
+      "battery_format": {
+        "name": "Formato da bateria",
+        "state": {
+          "measures-first-min-mean-max-last": "Detalhado (Mín/Méd/Máx)",
+          "measures-t1-t5-t10": "Detalhado (T1/T5/T10)",
+          "measure-single": "Simples",
+          "unknown": "Desconhecido",
+          "other": "Outro"
+        }
+      },
+      "battery_type": {
+        "name": "Tipo de bateria",
+        "state": {
+          "lsh14": "LSH14 (Lítio)",
+          "8x_aaa": "8x AAA (Alcalina)",
+          "unknown": "Desconhecido",
+          "other": "Outro"
+        }
+      },
+      "battery_level_first": {
+        "name": "Tensão da bateria (Primeira)"
+      },
+      "battery_level_min": {
+        "name": "Tensão da bateria (Mín)"
+      },
+      "battery_level_mean": {
+        "name": "Tensão da bateria (Méd)"
+      },
+      "battery_level_max": {
+        "name": "Tensão da bateria (Máx)"
+      },
+      "battery_level_last": {
+        "name": "Tensão da bateria (Última)"
+      },
+      "battery_level_t1": {
+        "name": "Tensão da bateria (T1)"
+      },
+      "battery_level_t5": {
+        "name": "Tensão da bateria (T5)"
+      },
+      "battery_level_t10": {
+        "name": "Tensão da bateria (T10)"
+      },
+      "maintenance_status": {
+        "name": "Estado da manutenção",
+        "state": {
+          "idle": "Inativo",
+          "cleaning": "Limpeza de códigos mestres"
+        }
+      },
+      "log_count": {
+        "name": "Contagem de registos"
+      }
+    },
+    "todo": {
+      "parcels": {
+        "name": "Encomendas"
+      }
+    },
+    "event": {
+      "logs": {
+        "name": "Registos",
+        "state": {
+          "code_ble_valid": "Código BLE válido utilizado",
+          "code_key_valid": "Código de teclado válido utilizado",
+          "code_ble_invalid": "Comando BLE inválido",
+          "code_key_invalid": "Código de teclado inválido utilizado",
+          "door_closed": "Porta fechada",
+          "door_opened": "Porta aberta",
+          "history_erase": "Histórico limpo",
+          "power_off": "Desligado",
+          "block_reset": "Reset de bloco",
+          "power_on": "Ligado",
+          "ble_reboot": "Reinício BLE",
+          "scale_measure": "Medição contínua da balança",
+          "key_opening": "Abertura com chave",
+          "error": "Erro (Diagnóstico)",
+          "nfc_opening": "Abertura NFC",
+          "nfc_tag_registering_scan": "Digitalização de tag NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (Terciário)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Evento desconhecido"
+        }
+      }
+    },
+    "update": {
+      "firmware_update": {
+        "name": "Atualização de Firmware"
+      }
+    }
+  },
+  "services": {
+    "add_parcel": {
+      "name": "Adicionar encomenda",
+      "description": "Adiciona uma nova encomenda à lista",
+      "fields": {
+        "description": {
+          "name": "Descrição",
+          "description": "Adiciona uma descrição à encomenda",
+          "example": "Entrega de livros"
+        }
+      }
+    },
+    "open_door": {
+      "name": "Abrir porta",
+      "description": "Abre a porta da Boks, opcionalmente com um código PIN.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres a utilizar para a abertura (0-9, A, B).",
+          "example": "123456"
+        }
+      }
+    },
+    "add_master_code": {
+      "name": "Adicionar código mestre",
+      "description": "Adiciona un novo código mestre à Boks num índice específico. Substituirá qualquer código existente nesse índice.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres (0-9, A, B).",
+          "example": "1234AB"
+        },
+        "index": {
+          "name": "Índice",
+          "description": "O índice de armazenamento para o código mestre (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "delete_master_code": {
+      "name": "Eliminar código mestre",
+      "description": "Elimina um código mestre da Boks utilizando o seu índice.",
+      "fields": {
+        "index": {
+          "name": "Índice",
+          "description": "O índice do código mestre a eliminar (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "add_single_code": {
+      "name": "Adicionar código de uso único",
+      "description": "Adiciona um novo código de uso único à Boks.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_single_code": {
+      "name": "Eliminar código de uso único",
+      "description": "Elimina um código de uso único da Boks utilizando o seu valor.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres (0-9, A, B) a eliminar.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "add_multi_code": {
+      "name": "Adicionar código de uso múltiplo",
+      "description": "Adiciona um novo código de uso múltiplo à Boks.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_multi_code": {
+      "name": "Eliminar código de uso múltiplo",
+      "description": "Elimina um código de uso múltiplo da Boks utilizando o seu valor.",
+      "fields": {
+        "code": {
+          "name": "Código PIN",
+          "description": "O código PIN de 6 caracteres (0-9, A, B) a eliminar.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "clean_master_codes": {
+      "name": "Limpar códigos mestres",
+      "description": "Digitaliza e elimina códigos mestres num intervalo de índices especificado para remover fantasmas. Limite: 100 índices por execução.",
+      "fields": {
+        "start_index": {
+          "name": "Índice inicial",
+          "description": "O índice a partir do qual iniciar a limpeza (0-255)."
+        },
+        "range": {
+          "name": "Intervalo",
+          "description": "Número de índices a digitalizar (Máx 100)."
+        }
+      }
+    },
+    "sync_logs": {
+      "name": "Sincronizar registos",
+      "description": "Recupera manualmente os registos da Boks e ativa os eventos associados."
+    },
+    "set_configuration": {
+      "name": "Definir configuração",
+      "description": "Altera as definições de configuração Boks (NFC, hardware, etc.).",
+      "fields": {
+        "laposte": {
+          "name": "La Poste (Vigik)",
+          "description": "Ativa ou desativa o reconhecimento de tags La Poste."
+        }
+      }
+    },
+    "nfc_scan_start": {
+      "name": "Iniciar digitalização NFC",
+      "description": "Inicia o modo de digitalização de tags NFC durante 6 segundos."
+    },
+    "nfc_register_tag": {
+      "name": "Registar tag NFC",
+      "description": "Regista uma tag NFC na whitelist. PRÉ-REQUISITO: deve primeiro executar 'Iniciar digitalização NFC' e digitalizar a tag.",
+      "fields": {
+        "uid": {
+          "name": "UID da tag",
+          "description": "O ID único da tag (ex: A1B2C3D4)."
+        },
+        "name": {
+          "name": "Nome amigável",
+          "description": "Nome opcional para guardar no registo de tags do HA."
+        }
+      }
+    },
+    "nfc_unregister_tag": {
+      "name": "Remover registo de tag NFC",
+      "description": "Remove uma tag NFC da whitelist da Boks.",
+      "fields": {
+        "uid": {
+          "name": "UID da tag",
+          "description": "O ID único da tag a remover."
+        }
+      }
+    },
+    "ask_door_status": {
+      "name": "Verificar estado da porta",
+      "description": "Consulta manualmente o Boks para verificar se a porta está aberta ou fechada."
+    },
+    "generate_update_package": {
+      "name": "Gerar Pacote de Atualização",
+      "description": "Prepara uma página web local para atualizar o firmware do Boks via Bluetooth.",
+      "fields": {
+        "version": {
+          "name": "Versão Alvo",
+          "description": "A versão do firmware a descarregar (ex: 4.3.3)."
+        }
+      }
+    },
+    "delete_update_package": {
+      "name": "Excluir pacote de atualização",
+      "description": "Exclui o arquivo de firmware e a interface de atualização para uma versão específica.",
+      "fields": {
+        "version": {
+          "name": "Versão",
+          "description": "A versão do firmware a ser excluída (ex: 4.2.0)"
+        }
+      }
+    },
+    "generate_pin_code": {
+      "name": "Gerar código PIN",
+      "description": "Gera um código PIN usando o algoritmo proprietário da Boks.",
+      "fields": {
+        "type": {
+          "name": "Tipo de código",
+          "description": "O tipo de código a gerar (mestre, único, multi)."
+        },
+        "index": {
+          "name": "Índice",
+          "description": "O índice de geração (começa em 0)."
+        }
+      }
+    }
+  }
+}
