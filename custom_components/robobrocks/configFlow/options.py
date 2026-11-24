@@ -7,6 +7,9 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.selector import (
+    NumberSelector,
+    NumberSelectorConfig,
+    NumberSelectorMode,
     SelectOptionDict,
     SelectSelector,
     SelectSelectorConfig,
@@ -19,6 +22,7 @@ from ..const import (
     DEFAULT_FULL_REFRESH_INTERVAL,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
+    MAX_MASTER_CODE_CLEAN_RANGE,
     ROBOBROCKS_CHAR_MAP,
 )
 
@@ -43,6 +47,7 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
         """Initialize options flow."""
         self.entry = config_entry
         self._edit_slot = 0
+        self._clean: tuple[int, int, bool] = (0, 0, True)
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         """Show the options menu."""
@@ -141,6 +146,7 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
         menu = ["pc_edit"]
         if store.slots:
             menu += ["pc_delete", "pc_restore"]
+        menu.append("pc_clean")
 
         return self.async_show_menu(
             step_id="permanent_codes",
@@ -230,6 +236,85 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
             ),
             errors=errors,
             description_placeholders=placeholders,
+        )
+
+    async def async_step_pc_clean(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        """Choose a range of slots to clean."""
+        errors: dict[str, str] = {}
+        if user_input is not None:
+            start, end = int(user_input["start"]), int(user_input["end"])
+            if end < start:
+                errors["end"] = "invalid_range"
+            elif end - start + 1 > MAX_MASTER_CODE_CLEAN_RANGE:
+                errors["end"] = "range_too_large"
+            else:
+                self._clean = (start, end, user_input.get("delete_on_box", True))
+                return await self.async_step_pc_clean_confirm()
+
+        user_input = user_input or {}
+        number = NumberSelector(NumberSelectorConfig(min=0, max=MAX_SLOT, step=1, mode=NumberSelectorMode.BOX))
+        return self.async_show_form(
+            step_id="pc_clean",
+            data_schema=vol.Schema(
+                {
+                    vol.Required("start", default=user_input.get("start", 0)): number,
+                    vol.Required("end", default=user_input.get("end", 0)): number,
+                    vol.Optional("delete_on_box", default=user_input.get("delete_on_box", True)): bool,
+                }
+            ),
+            errors=errors,
+            description_placeholders={"max": str(MAX_MASTER_CODE_CLEAN_RANGE)},
+        )
+
+    async def async_step_pc_clean_confirm(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+        """Show what will be cleaned and require an explicit confirmation."""
+        store = self._coordinator.permanent_codes
+        start, end, on_box = self._clean
+        recorded = {i: s for i, s in store.slots.items() if start <= i <= end}
+        errors: dict[str, str] = {}
+
+        if user_input is not None:
+            if not user_input.get("confirm"):
+                errors["confirm"] = "confirm_required"
+            else:
+                if on_box:
+                    try:
+                        await self._coordinator.codes.clean_master_codes(start, end - start + 1)
+                    except HomeAssistantError as err:
+                        _LOGGER.error("Could not start cleaning slots %d-%d: %s", start, end, err)
+                        errors["base"] = "clean_running"
+                if not errors:
+                    for index in recorded:
+                        await store.remove_slot(index)
+                    return self.async_abort(
+                        reason="pc_cleaned_box" if on_box else "pc_cleaned",
+                        description_placeholders={"start": str(start), "end": str(end), "count": str(len(recorded))},
+                    )
+
+        lines = [f"- {i} : **{s['code']}** {s['label']}" for i, s in recorded.items()]
+        master_code = (self.entry.data.get(CONF_MASTER_CODE) or "").upper()
+        warn = ""
+        if on_box and any(s["code"] == master_code for s in recorded.values()):
+            warn = "\n\n⚠️ " + (
+                "Le code d'ouverture utilisé par Home Assistant est dans cette plage."
+                if (self.hass.config.language or "").startswith("fr")
+                else "The opening code used by Home Assistant is in this range."
+            )
+        return self.async_show_form(
+            step_id="pc_clean_confirm",
+            data_schema=vol.Schema({vol.Required("confirm", default=False): bool}),
+            errors=errors,
+            description_placeholders={
+                "start": str(start),
+                "end": str(end),
+                "count": str(end - start + 1),
+                "slots": ("\n".join(lines) if lines else "-") + warn,
+                "target": (
+                    ("dans la boîte et dans le registre" if on_box else "dans le registre seulement (rien n'est envoyé)")
+                    if (self.hass.config.language or "").startswith("fr")
+                    else ("on the box and in the registry" if on_box else "in the registry only (nothing sent)")
+                ),
+            },
         )
 
     async def async_step_pc_delete(self, user_input: dict[str, Any] | None = None) -> FlowResult:

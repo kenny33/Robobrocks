@@ -331,7 +331,8 @@
         "menu_options": {
           "pc_edit": "Créer / modifier un slot",
           "pc_delete": "Supprimer un code",
-          "pc_restore": "Réécrire tous les codes sur la boîte"
+          "pc_restore": "Réécrire tous les codes sur la boîte",
+          "pc_clean": "Nettoyer une plage de slots"
         }
       },
       "pc_delete": {
@@ -361,17 +362,39 @@
           "label": "Libellé",
           "write_to_box": "Écrire sur la boîte"
         }
+      },
+      "pc_clean": {
+        "title": "Nettoyer une plage de slots",
+        "description": "Les slots du « premier » au « dernier » (inclus, {max} au maximum) seront vidés. Une confirmation est demandée à l'écran suivant.",
+        "data": {
+          "start": "Premier slot",
+          "end": "Dernier slot",
+          "delete_on_box": "Supprimer aussi dans la boîte"
+        }
+      },
+      "pc_clean_confirm": {
+        "title": "Confirmer le nettoyage",
+        "description": "Les slots {start} à {end} ({count} slots) vont être vidés {target}.\n\nCodes enregistrés dans cette plage :\n\n{slots}\n\nAucun retour en arrière possible sur la boîte.",
+        "data": {
+          "confirm": "Je confirme le nettoyage"
+        }
       }
     },
     "error": {
       "code_in_use": "Ce code est déjà enregistré dans un autre slot.",
       "invalid_code_format": "Code invalide (6 caractères parmi 0-9, A, B).",
-      "box_error": "La boîte a refusé l'opération ou est injoignable."
+      "box_error": "La boîte a refusé l'opération ou est injoignable.",
+      "invalid_range": "Le dernier slot doit être supérieur ou égal au premier.",
+      "range_too_large": "{max} slots au maximum à la fois.",
+      "confirm_required": "Coche la case pour confirmer.",
+      "clean_running": "Un nettoyage est déjà en cours. Attends qu'il se termine."
     },
     "abort": {
       "not_loaded": "L'intégration n'est pas chargée. Réessaie quand la boîte est disponible.",
       "pc_deleted": "Slot {slot} supprimé.",
-      "pc_restored": "{ok} code(s) écrit(s). Slots en échec : {failed}."
+      "pc_restored": "{ok} code(s) écrit(s). Slots en échec : {failed}.",
+      "pc_cleaned": "Slots {start} à {end} retirés du registre ({count} code(s)).",
+      "pc_cleaned_box": "Nettoyage des slots {start} à {end} lancé sur la boîte ({count} code(s) retiré(s) du registre). La progression s'affiche dans le capteur de maintenance, et une notification apparaît à la fin."
     }
   },
   "selector": {

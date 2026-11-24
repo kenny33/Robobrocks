@@ -331,7 +331,8 @@
         "menu_options": {
           "pc_edit": "Create / modify a slot",
           "pc_delete": "Delete a code",
-          "pc_restore": "Write all codes back to the box"
+          "pc_restore": "Write all codes back to the box",
+          "pc_clean": "Clean a range of slots"
         }
       },
       "pc_delete": {
@@ -361,17 +362,39 @@
           "label": "Label",
           "write_to_box": "Write to the box"
         }
+      },
+      "pc_clean": {
+        "title": "Clean a range of slots",
+        "description": "Slots from \"first\" to \"last\" (inclusive, at most {max}) will be emptied. A confirmation is asked on the next screen.",
+        "data": {
+          "start": "First slot",
+          "end": "Last slot",
+          "delete_on_box": "Also delete on the box"
+        }
+      },
+      "pc_clean_confirm": {
+        "title": "Confirm the cleaning",
+        "description": "Slots {start} to {end} ({count} slots) will be emptied {target}.\n\nRecorded codes in this range:\n\n{slots}\n\nThis cannot be undone on the box.",
+        "data": {
+          "confirm": "I confirm the cleaning"
+        }
       }
     },
     "error": {
       "code_in_use": "This code is already recorded in another slot.",
       "invalid_code_format": "Invalid code (6 characters among 0-9, A, B).",
-      "box_error": "The box refused the operation or could not be reached."
+      "box_error": "The box refused the operation or could not be reached.",
+      "invalid_range": "The last slot must be greater than or equal to the first.",
+      "range_too_large": "At most {max} slots at a time.",
+      "confirm_required": "Tick the box to confirm.",
+      "clean_running": "A cleaning is already running. Wait for it to finish."
     },
     "abort": {
       "not_loaded": "The integration is not loaded. Try again once the box is available.",
       "pc_deleted": "Slot {slot} deleted.",
-      "pc_restored": "{ok} code(s) written. Failed slots: {failed}."
+      "pc_restored": "{ok} code(s) written. Failed slots: {failed}.",
+      "pc_cleaned": "Slots {start} to {end} removed from the registry ({count} code(s)).",
+      "pc_cleaned_box": "Cleaning of slots {start} to {end} started on the box ({count} recorded code(s) removed from the registry). Progress is shown by the maintenance sensor, and a notification appears at the end."
     }
   },
   "selector": {

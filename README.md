@@ -56,6 +56,12 @@ dans Home Assistant : numéro, code et libellé.
   chaque code créé avant Robobrocks. Si seul le libellé change, rien n'est envoyé.
 - **Supprimer un code** : dans la boîte et dans le registre, ou dans le registre seulement.
 - **Réécrire tous les codes sur la boîte** : après une réinitialisation de la boîte.
+- **Nettoyer une plage de slots** : vide les slots de X à Y (100 au maximum), dans la boîte et
+  le registre, ou dans le registre seulement. Un écran de confirmation liste les codes
+  enregistrés concernés et demande de cocher « Je confirme ». Il signale aussi si le code
+  d'ouverture utilisé par HA est dans la plage. Le nettoyage de la boîte se fait en
+  arrière-plan : le capteur de maintenance montre la progression, puis une notification
+  s'affiche à la fin.
 
 L'écran affiche aussi le nombre de codes permanents que déclare la boîte, pour repérer un écart,
 et la date de dernière utilisation de chaque slot.
