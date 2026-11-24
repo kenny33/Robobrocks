@@ -25,6 +25,7 @@ from ..const import (
 _LOGGER = logging.getLogger(__name__)
 
 MAX_SLOT = 255
+SLOT_LIST_MIN_SIZE = 20
 
 
 def _normalize_code(code: str | None) -> str | None:
@@ -101,6 +102,22 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
             for index, slot in self._coordinator.permanent_codes.slots.items()
         ]
 
+    def _all_slots_selector(self) -> SelectSelector:
+        """Dropdown of slots 0..N showing, for each, the recorded code or that it is free."""
+        store = self._coordinator.permanent_codes
+        french = (self.hass.config.language or "").startswith("fr")
+        free_txt = "libre" if french else "free"
+        last = min(MAX_SLOT, max([SLOT_LIST_MIN_SIZE - 1, *[i + 5 for i in store.slots]]))
+        options = []
+        for index in range(last + 1):
+            slot = store.get(index)
+            if slot is None:
+                label = f"{index} - {free_txt}"
+            else:
+                label = f"{index} - {slot['label'] or '?'} ({slot['code']})"
+            options.append(SelectOptionDict(value=str(index), label=label))
+        return SelectSelector(SelectSelectorConfig(options=options, mode=SelectSelectorMode.DROPDOWN))
+
     def _slot_selector(self) -> SelectSelector:
         return SelectSelector(
             SelectSelectorConfig(options=self._slot_options(), mode=SelectSelectorMode.DROPDOWN)
@@ -137,7 +154,7 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
     def _validate_new_slot(self, user_input: dict[str, Any], errors: dict, code_required: bool) -> str | None:
         """Common checks for adding/importing a slot. Return the normalized code."""
         store = self._coordinator.permanent_codes
-        index = user_input["slot"]
+        index = user_input["slot"] = int(user_input["slot"])
         if store.get(index) is not None:
             errors["slot"] = "slot_in_use"
 
@@ -158,8 +175,8 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
         code_key = vol.Required if code_required else vol.Optional
         return vol.Schema(
             {
-                vol.Required("slot", default=user_input.get("slot", store.first_free())): vol.All(
-                    vol.Coerce(int), vol.Range(min=0, max=MAX_SLOT)
+                vol.Required("slot", default=str(user_input.get("slot", store.first_free()))): (
+                    self._all_slots_selector()
                 ),
                 code_key("code", description={"suggested_value": user_input.get("code")}): str,
                 vol.Optional("label", default=user_input.get("label", "")): str,
