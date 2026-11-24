@@ -11,14 +11,14 @@ et corrige la compatibilité avec les versions récentes de Home Assistant.
 
 ## Licence
 
-Distribué sous licence **GNU General Public License v3.0** (voir [LICENSE](LICENSE)).
+Distribué sous licence **Apache 2.0** (voir [LICENSE](LICENSE)).
 
 Code d'origine © thib3113. Modifications du fork © 2026 David Legros.
+Les fichiers modifiés par rapport au projet d'origine sont décrits dans le
+[CHANGELOG](CHANGELOG.md).
 
-Ce programme est un logiciel libre : vous pouvez le redistribuer et/ou le modifier selon
-les termes de la GNU GPL telle que publiée par la Free Software Foundation, version 3.
-Il est distribué SANS AUCUNE GARANTIE, sans même la garantie implicite de qualité
-marchande ou d'adéquation à un usage particulier.
+Sauf obligation légale ou accord écrit, ce logiciel est distribué « TEL QUEL », SANS
+GARANTIE NI CONDITION D'AUCUNE SORTE, expresse ou implicite.
 
 ## Compatibilité matérielle
 
