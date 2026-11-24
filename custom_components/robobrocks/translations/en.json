@@ -329,36 +329,9 @@
         "title": "Permanent codes",
         "description": "Slots recorded in Home Assistant ({registry_count}), box reports {box_count} permanent code(s):\n\n{slots}\n\nThe box cannot list its codes: this registry is the only place they are kept. It is saved in Home Assistant backups.",
         "menu_options": {
-          "pc_add": "Create a code on the box",
-          "pc_import": "Record an existing code (nothing sent to the box)",
-          "pc_rename": "Rename a slot",
+          "pc_edit": "Create / modify a slot",
           "pc_delete": "Delete a code",
           "pc_restore": "Write all codes back to the box"
-        }
-      },
-      "pc_add": {
-        "title": "Create a permanent code",
-        "description": "The code is written to the box in the chosen slot, then recorded. Leave the code empty to generate a random one.{error}",
-        "data": {
-          "slot": "Slot",
-          "code": "Code (6 characters 0-9, A, B)",
-          "label": "Label"
-        }
-      },
-      "pc_import": {
-        "title": "Record an existing code",
-        "description": "For a code already present on the box. Nothing is sent to the box.",
-        "data": {
-          "slot": "Slot",
-          "code": "Code (6 characters 0-9, A, B)",
-          "label": "Label"
-        }
-      },
-      "pc_rename": {
-        "title": "Rename a slot",
-        "data": {
-          "slot": "Slot",
-          "label": "New label"
         }
       },
       "pc_delete": {
@@ -372,17 +345,31 @@
       "pc_restore": {
         "title": "Write all codes back",
         "description": "The {count} recorded code(s) will be written to the box in their slots. Use this after a reset of the box."
+      },
+      "pc_edit": {
+        "title": "Create or modify a slot",
+        "description": "Pick a free slot to create a code, or a recorded slot to modify it.",
+        "data": {
+          "slot": "Slot"
+        }
+      },
+      "pc_slot": {
+        "title": "Slot {slot}",
+        "description": "Leave the code empty to generate a random one. Uncheck \"Write to the box\" to only record a code that is already on the box. If only the label changes, nothing is sent.{error}",
+        "data": {
+          "code": "Code (6 characters 0-9, A, B)",
+          "label": "Label",
+          "write_to_box": "Write to the box"
+        }
       }
     },
     "error": {
-      "slot_in_use": "This slot is already recorded. Delete it first.",
       "code_in_use": "This code is already recorded in another slot.",
       "invalid_code_format": "Invalid code (6 characters among 0-9, A, B).",
       "box_error": "The box refused the operation or could not be reached."
     },
     "abort": {
       "not_loaded": "The integration is not loaded. Try again once the box is available.",
-      "pc_added": "Code {code} created in slot {slot}.",
       "pc_deleted": "Slot {slot} deleted.",
       "pc_restored": "{ok} code(s) written. Failed slots: {failed}."
     }

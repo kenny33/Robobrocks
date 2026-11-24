@@ -49,11 +49,11 @@ dans Home Assistant : numéro, code et libellé.
 
 **Paramètres → Appareils et services → Robobrocks → Configurer → Codes permanents** :
 
-- **Enregistrer un code existant** : pour les codes déjà présents dans la boîte. Rien n'est
-  envoyé à la boîte. À faire une fois pour chaque code créé avant Robobrocks.
-- **Créer un code sur la boîte** : écrit le code dans le slot choisi (par défaut le premier
-  slot libre à partir de 1), puis l'enregistre. Laisser le code vide pour en générer un au hasard.
-- **Renommer un slot** : change seulement le libellé.
+- **Créer / modifier un slot** : choisir un slot dans la liste (chaque slot est affiché
+  « libre » ou avec son libellé et son code). Le formulaire est prérempli pour un slot
+  enregistré. Laisser le code vide pour en générer un au hasard. Décocher « Écrire sur la
+  boîte » pour seulement enregistrer un code déjà présent dans la boîte : à faire une fois pour
+  chaque code créé avant Robobrocks. Si seul le libellé change, rien n'est envoyé.
 - **Supprimer un code** : dans la boîte et dans le registre, ou dans le registre seulement.
 - **Réécrire tous les codes sur la boîte** : après une réinitialisation de la boîte.
 
