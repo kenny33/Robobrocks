@@ -1,6 +1,6 @@
 # Changelog
 
-## [Non publié] — fork Robobrocks
+## [1.4.0] — 2026-11-24 — fork Robobrocks
 
 Fork de l'intégration d'origine de thib3113 (dernière version connue : 1.3.0-pre10).
 Aucun changement fonctionnel : le protocole BLE, les commandes et la logique sont identiques.

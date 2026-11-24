@@ -90,7 +90,7 @@ supprimé par la liste de colis.
 
 ## Installation (HACS)
 
-1. HACS → menu ⋮ → **Dépôts personnalisés** → ajouter `https://github.com/kenny33/Robobroks`,
+1. HACS → menu ⋮ → **Dépôts personnalisés** → ajouter `https://github.com/kenny33/Robobrocks`,
    catégorie **Intégration**.
 2. Installer **Robobrocks**, puis redémarrer Home Assistant.
 3. **Paramètres → Appareils et services → Ajouter une intégration → Robobrocks**.
