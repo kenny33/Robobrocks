@@ -9,8 +9,16 @@ Ce projet est un fork de l'intégration **ha-boks**, écrite par **thib3113**
 Tout le code fonctionnel vient de ce projet. Ce fork change seulement le nom du projet
 et corrige la compatibilité avec les versions récentes de Home Assistant.
 
-> **Licence :** ce dépôt reprend la licence du projet d'origine. Le fichier `LICENSE`
-> d'origine n'était pas inclus dans l'import et **doit être ajouté** avec son texte exact.
+## Licence
+
+Distribué sous licence **GNU General Public License v3.0** (voir [LICENSE](LICENSE)).
+
+Code d'origine © thib3113. Modifications du fork © 2026 David Legros.
+
+Ce programme est un logiciel libre : vous pouvez le redistribuer et/ou le modifier selon
+les termes de la GNU GPL telle que publiée par la Free Software Foundation, version 3.
+Il est distribué SANS AUCUNE GARANTIE, sans même la garantie implicite de qualité
+marchande ou d'adéquation à un usage particulier.
 
 ## Compatibilité matérielle
 
