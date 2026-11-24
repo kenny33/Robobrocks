@@ -1,0 +1,673 @@
+{
+  "common": {
+    "maintenance_success_title": "Konserwacja Robobrocks",
+    "maintenance_success_msg": "Czyszczenie kodów nadrzędnych zakończone.\nZeskanowano {range} indeksów, zaczynając od {start_index}.",
+    "nfc_tag_found_title": "Wykryto tag NFC Robobrocks",
+    "nfc_tag_found_msg": "Wykryto nowy tag NFC o identyfikatorze UID {uid} na urządzeniu Robobrocks.",
+    "nfc_tag_found_msg_named": "Tag {name} ({uid}) został zeskanowany na urządzeniu Robobrocks.",
+    "nfc_tag_found_register_help": "Użyj usługi robobrocks.nfc_register_tag, aby przypisać go do nazwy.",
+    "nfc_tag_exists_title": "Tag NFC Robobrocks jest już zarejestrowany",
+    "nfc_tag_exists_msg": "Tag NFC o identyfikatorze UID {uid} jest już zarejestrowany na tym urządzeniu Robobrocks.",
+    "nfc_tag_exists_msg_named": "Tag {name} ({uid}) jest już zarejestrowany na tym urządzeniu Robobrocks.",
+    "nfc_tag_exists_msg_unknown": "Przedstawiony tag NFC jest już zarejestrowany na tym urządzeniu Robobrocks.",
+    "nfc_scan_started_title": "Skanowanie NFC włączone",
+    "nfc_scan_started_msg": "Robobrocks jest w trybie nasłuchiwania. Natychmiast przedstaw swój tag NFC (limit czasu 6s).",
+    "nfc_scan_timeout_title": "Skanowanie NFC zakończone",
+    "nfc_scan_timeout_msg": "Limit czasu 6 sekund upłynął. Nie wykryto żadnego tagu.",
+    "nfc_register_error_title": "Błąd rejestracji",
+    "nfc_register_error_msg": "Nie udało się zarejestrować tagu {uid}. Urządzenie nie odpowiedziało.",
+    "maintenance_progress_msg": "Czyszczenie indeksu {current}/{total} (Sukces: {cleaned})",
+    "maintenance_idle_msg": "Bezczynność",
+    "maintenance_finished_msg": "Czyszczenie zakończone (Sukces: {cleaned})"
+  },
+  "config": {
+    "step": {
+      "cloud": {
+        "title": "Logowanie Robobrocks",
+        "description": "Wprowadź dane uwierzytelniające aplikacji Robobrocks, aby automatycznie pobrać klucze urządzenia.",
+        "data": {
+          "username": "Email",
+          "password": "Hasło"
+        }
+      },
+      "device_selection": {
+        "title": "Wybierz swoje urządzenie Robobrocks",
+        "description": "Wybierz, które urządzenie Robobrocks chcesz dodać.",
+        "data": {
+          "device": "Urządzenie"
+        }
+      },
+      "user": {
+        "title": "Konfiguracja ręczna",
+        "description": "Wprowadź dane uwierzytelniające Robobrocks.\n\n**Kolejność preferencji:**\n1. **Klucz nadrzędny (64 znaki):** Pełny dostęp.\n2. **Klucz konfiguracyjny (8 znaków):** Dostęp standardowy.",
+        "data": {
+          "mac": "Adres Bluetooth",
+          "master_code": "Kod nadrzędny",
+          "credential": "Dane uwierzytelniające (klucz konfiguracyjny lub nadrzędny)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nie można połączyć się z API Robobrocks.",
+      "invalid_auth": "Nieprawidłowy adres email lub hasło.",
+      "robobrocks_not_found": "Nie znaleziono urządzenia Robobrocks pasującego do adresu MAC na tym koncie.",
+      "cannot_retrieve_key": "Nie można pobrać klucza konfiguracyjnego z chmury.",
+      "device_not_found": "Urządzenia nie znaleziono na liście.",
+      "device_not_in_cache": "Urządzenia nie znaleziono w pamięci podręcznej Bluetooth. Brak dostępnej ścieżki połączenia.",
+      "no_devices_found": "Nie znaleziono żadnych urządzeń Robobrocks na tym koncie.",
+      "connection_error": "Błąd połączenia podczas pobierania urządzeń.",
+      "invalid_credential_format": "Nieprawidłowy format danych uwierzytelniających. Musi to być 8/64 znaków szesnastkowych.",
+      "invalid_master_code_format": "Nieprawidłowy format kodu nadrzędnego. Musi to być 6-cyfrowy kod (0-9, A, B).",
+      "unknown": "Wystąpił nieoczekiwany błąd.",
+      "pin_code_invalid_length": "Kod PIN musi składać się z 6 znaków.",
+      "pin_code_invalid": "Nieprawidłowy kod PIN.",
+      "unauthorized": "Brak autoryzacji.",
+      "config_key_required": "Klucz konfiguracyjny jest wymagany do tej operacji.",
+      "invalid_code_format": "Nieprawidłowy format kodu (musi to być 6 znaków spośród 0-9, A, B).",
+      "create_code_failed": "Nie udało się utworzyć kodu (urządzenie zwróciło błąd).",
+      "change_master_code_failed": "Nie udało się zmienić kodu nadrzędnego (urządzenie zwróciło błąd).",
+      "unknown_code_type": "Nieznany typ kodu.",
+      "unknown_device": "Urządzenie nie jest widoczne dla adaptera Bluetooth.",
+      "not_connectable": "Wykryte urządzenie nie pozwala na połączenie (prawdopodobnie przez pasywne proxy).",
+      "todo_entity_not_found_for_device": "Nie znaleziono encji Todo dla urządzenia {target_device_id}.",
+      "target_devices_not_robobrocks": "Urządzenia docelowe {device_ids} nie są urządzeniami Robobrocks.",
+      "target_entities_not_robobrocks": "Encje docelowe {entity_ids} należą do urządzeń innych niż Robobrocks.",
+      "target_device_missing": "Nie znaleziono lub nie określono docelowego urządzenia Robobrocks. Proszę podać device_id lub entity_id.",
+      "multiple_devices_found": "Znaleziono wiele urządzeń Robobrocks. Proszę określić encję lub urządzenie docelowe.",
+      "no_devices_configured": "Brak skonfigurowanych urządzeń Robobrocks.",
+      "cannot_resolve_todo": "Nie można rozpoznać docelowej listy zadań Robobrocks.",
+      "todo_integration_not_loaded": "Integracja Todo nie została załadowana.",
+      "todo_entity_not_found": "Encja Todo {target_entity_id} nie została znaleziona lub załadowana.",
+      "config_key_invalid_length": "Klucz konfiguracyjny musi mieć dokładnie 8 znaków.",
+      "ble_client_none": "Klient BLE ma wartość None, nie można wysłać polecenia.",
+      "timeout_waiting_response": "Przekroczono limit czasu oczekiwania na odpowiedź dla kodu operacji {opcode}.",
+      "ble_error": "Błąd BLE: {error}",
+      "ble_internal_error": "Wewnętrzny błąd BLE: {error}",
+      "entity_not_parcel_list": "Encja {target_entity_id} nie jest listą paczek Robobrocks.",
+      "maintenance_already_running": "Zadanie konserwacji jest już w toku. Proszę poczekać na jego zakończenie.",
+      "delete_code_failed": "Nie udało się usunąć kodu (urządzenie zwróciło błąd).",
+      "set_configuration_failed": "Nie udało się ustawić konfiguracji {config_type} (urządzenie zwróciło błąd).",
+      "laposte_firmware_version_required": "Wersja oprogramowania układowego musi być wyższa niż {required_version}, aby włączyć funkcję La Poste. Aktualna wersja: {current_version}",
+      "firmware_version_required": "Wersja oprogramowania układowego musi być wyższa niż {required_version}, aby korzystać z tej funkcji. Aktualna wersja: {current_version}",
+      "firmware_update_failed": "Nie udało się wywołać aktualizacji oprogramowania układowego dla wersji {version}",
+      "door_opened_recently": "Drzwi zostały niedawno otwarte. Proszę odczekać {seconds} sekund przed ponownym otwarciem.",
+      "opening_failed_no_code": "Otwieranie nie powiodło się: nie podano kodu PIN, brak zapisanego kodu nadrzędnego i nie można wygenerować jednorazowego kodu PIN.",
+      "opening_failed_no_code_no_key": "Otwieranie nie powiodło się: nie podano kodu PIN, brak zapisanego kodu nadrzędnego i nie można wygenerować jednorazowego kodu PIN (brak dostępnego klucza konfiguracyjnego).",
+      "hardware_unsupported": "Funkcja {feature} wymaga urządzenia Robobrocks w wersji v{required_hw} lub nowszej. Twoja aktualna wersja to v{current_hw}.",
+      "firmware_update_required": "Funkcja {feature} wymaga oprogramowania układowego w wersji {required_sw}. Twoja aktualna wersja to {current_sw}.",
+      "unexpected_create_code_error": "Nieoczekiwany błąd podczas tworzenia kodu: {error}",
+      "unexpected_delete_code_error": "Nieoczekiwany błąd podczas usuwania kodu: {error}",
+      "unexpected_set_configuration_error": "Nieoczekiwany błąd podczas zmiany konfiguracji: {error}",
+      "unexpected_register_tag_error": "Nieoczekiwany błąd podczas rejestracji tagu: {error}",
+      "unexpected_unregister_tag_error": "Nieoczekiwany błąd podczas wyrejestrowywania tagu: {error}"
+    },
+    "abort": {
+      "already_configured": "To urządzenie Robobrocks jest już skonfigurowane.",
+      "not_connectable": "Wykryte urządzenie nie pozwala na połączenie (prawdopodobnie przez pasywne proxy).",
+      "cannot_connect": "Nie można połączyć się z urządzeniem. Sprawdź, czy jest w zasięgu i pozwala na połączenie."
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Nie można połączyć się z API Robobrocks."
+    },
+    "invalid_auth": {
+      "message": "Nieprawidłowy adres email lub hasło."
+    },
+    "robobrocks_not_found": {
+      "message": "Nie znaleziono urządzenia Robobrocks pasującego do adresu MAC na tym koncie."
+    },
+    "cannot_retrieve_key": {
+      "message": "Nie można pobrać klucza konfiguracyjnego z chmury."
+    },
+    "device_not_found": {
+      "message": "Urządzenia nie znaleziono na liście."
+    },
+    "device_not_in_cache": {
+      "message": "Urządzenia nie znaleziono w pamięci podręcznej Bluetooth. Brak dostępnej ścieżki połączenia."
+    },
+    "no_devices_found": {
+      "message": "Nie znaleziono żadnych urządzeń Robobrocks na tym koncie."
+    },
+    "connection_error": {
+      "message": "Błąd połączenia podczas pobierania urządzeń."
+    },
+    "invalid_credential_format": {
+      "message": "Nieprawidłowy format danych uwierzytelniających. Musi to być 8/64 znaków szesnastkowych."
+    },
+    "invalid_master_code_format": {
+      "message": "Format kodu nadrzędnego jest nieprawidłowy. Musi to być 6-cyfrowy kod (0-9, A, B)."
+    },
+    "unknown": {
+      "message": "Wystąpił nieoczekiwany błąd."
+    },
+    "pin_code_invalid_length": {
+      "message": "Kod PIN musi składać się z 6 znaków."
+    },
+    "pin_code_invalid": {
+      "message": "Nieprawidłowy kod PIN."
+    },
+    "master_key_required": {
+      "message": "Klucz główny jest wymagany do generowania kodów PIN. Sprawdź konfigurację integracji."
+    },
+    "master_key_invalid": {
+      "message": "Skonfigurowany klucz główny jest nieprawidłowy (musi mieć 32 bajty hex)."
+    },
+    "unauthorized": {
+      "message": "Brak autoryzacji."
+    },
+    "config_key_required": {
+      "message": "Klucz konfiguracyjny jest wymagany do tej operacji."
+    },
+    "invalid_code_format": {
+      "message": "Format kodu jest nieprawidłowy (musi to być 6 znaków od 0-9, A, B)."
+    },
+    "create_code_failed": {
+      "message": "Tworzenie kodu nie powiodło się (urządzenie zwróciło błąd)."
+    },
+    "change_master_code_failed": {
+      "message": "Zmiana kodu nadrzędnego nie powiodła się (urządzenie zwróciło błąd)."
+    },
+    "unknown_code_type": {
+      "message": "Nieznany typ kodu."
+    },
+    "unknown_device": {
+      "message": "Urządzenie nie jest widziane przez adapter Bluetooth."
+    },
+    "not_connectable": {
+      "message": "Wykryte urządzenie nie pozwala na połączenie (prawdopodobnie przez pasywne proxy)."
+    },
+    "todo_entity_not_found_for_device": {
+      "message": "Nie znaleziono encji Todo dla urządzenia {target_device_id}."
+    },
+    "target_devices_not_robobrocks": {
+      "message": "Urządzenia docelowe {device_ids} nie są urządzeniami Robobrocks."
+    },
+    "target_entities_not_robobrocks": {
+      "message": "Encje docelowe {entity_ids} należą do urządzeń innych niż Robobrocks."
+    },
+    "target_device_missing": {
+      "message": "Docelowe urządzenie Robobrocks nie zostało znalezione lub nie zostało określone. Proszę podać device_id lub entity_id."
+    },
+    "multiple_devices_found": {
+      "message": "Znaleziono wiele urządzeń Robobrocks. Proszę określić docelową encję lub urządzenie."
+    },
+    "no_devices_configured": {
+      "message": "Brak skonfigurowanych urządzeń Robobrocks."
+    },
+    "cannot_resolve_todo": {
+      "message": "Nie można rozpoznać docelowej listy zadań Robobrocks."
+    },
+    "todo_integration_not_loaded": {
+      "message": "Integracja Todo nie została załadowana."
+    },
+    "todo_entity_not_found": {
+      "message": "Encja Todo {target_entity_id} nie została znaleziona lub załadowana."
+    },
+    "config_key_invalid_length": {
+      "message": "Klucz konfiguracyjny musi mieć dokładnie 8 znaków."
+    },
+    "ble_client_none": {
+      "message": "Klient BLE ma wartość None, nie można wysłać polecenia."
+    },
+    "timeout_waiting_response": {
+      "message": "Przekroczono limit czasu oczekiwania na odpowiedź dla kodu operacji {opcode}."
+    },
+    "ble_error": {
+      "message": "Błąd BLE: {error}"
+    },
+    "ble_internal_error": {
+      "message": "Wewnętrzny błąd BLE: {error}"
+    },
+    "entity_not_parcel_list": {
+      "message": "Encja {target_entity_id} nie jest listą paczek Robobrocks."
+    },
+    "maintenance_already_running": {
+      "message": "Zadanie konserwacji jest już w toku. Proszę poczekać na jego zakończenie."
+    },
+    "delete_code_failed": {
+      "message": "Usuwanie kodu nie powiodło się (urządzenie zwróciło błąd)."
+    },
+    "set_configuration_failed": {
+      "message": "Ustawienie konfiguracji {config_type} nie powiodło się (urządzenie zwróciło błąd)."
+    },
+    "laposte_firmware_version_required": {
+      "message": "Wersja oprogramowania układowego musi być wyższa niż {required_version}, aby włączyć funkcję La Poste. Aktualna wersja: {current_version}"
+    },
+    "firmware_version_required": {
+      "message": "Wersja oprogramowania układowego musi być wyższa niż {required_version}, aby korzystać z tej funkcji. Aktualna wersja: {current_version}"
+    },
+    "firmware_update_failed": {
+      "message": "Nie udało się wywołać aktualizacji oprogramowania układowego dla wersji {version}"
+    },
+    "door_opened_recently": {
+      "message": "Drzwi zostały niedawno otwarte. Proszę odczekać {seconds} sekund przed ponownym otwarciem."
+    },
+    "opening_failed_no_code": {
+      "message": "Otwieranie nie powiodło się: nie podano kodu PIN, brak zapisanego kodu nadrzędnego i nie można wygenerować jednorazowego kodu PIN."
+    },
+    "opening_failed_no_code_no_key": {
+      "message": "Otwieranie nie powiodło się: nie podano kodu PIN, brak zapisanego kodu nadrzędnego i nie można wygenerować jednorazowego kodu PIN (brak dostępnego klucza konfiguracyjnego)."
+    },
+    "hardware_unsupported": {
+      "message": "Funkcja {feature} wymaga urządzenia Robobrocks w wersji v{required_hw} lub nowszej. Twoja aktualna wersja to v{current_hw}."
+    },
+    "firmware_update_required": {
+      "message": "Funkcja {feature} wymaga oprogramowania układowego w wersji {required_sw}. Twoja aktualna wersja to {current_sw}."
+    },
+    "item_not_found": {
+      "message": "Nie znaleziono elementu"
+    },
+    "operation_timed_out": {
+      "message": "Operacja przekroczyła limit czasu po {seconds} sekundach."
+    },
+    "busy": {
+      "message": "Urządzenie zajęte: inna operacja już nasłuchuje powiadomień."
+    },
+    "lock_entity_not_found": {
+      "message": "Nie znaleziono encji blokady dla tego urządzenia."
+    },
+    "invalid_uid_format": {
+      "message": "Nieprawidłowy format UID NFC."
+    },
+    "invalid_master_code_index": {
+      "message": "Nieprawidłowy indeks kodu nadrzędnego (musi mieścić się w przedziale od 0 do 255)."
+    },
+    "nfc_tag_already_exists": {
+      "message": "Ten tag NFC jest już zarejestrowany w urządzeniu Robobrocks."
+    },
+    "maintenance_failed_msg": {
+      "message": "Konserwacja nie powiodła się: {error}"
+    },
+    "maintenance_error_title": {
+      "message": "Błąd konserwacji Robobrocks"
+    },
+    "maintenance_error_msg": {
+      "message": "Czyszczenie kodów nadrzędnych nie powiodło się na indeksie {current_idx}.\nBłąd: {error}"
+    },
+    "fw_hw_rev_unknown": {
+      "message": "Nie udało się określić wewnętrznej wersji oprogramowania układowego (identyfikator sprzętu). Upewnij się, że urządzenie jest osiągalne."
+    },
+    "fw_hw_unsupported": {
+      "message": "Nieobsługiwany sprzęt lub nieznana wersja: {revision}"
+    },
+    "fw_version_not_found": {
+      "message": "Wersja {version} niedostępna dla sprzętu {revision}"
+    },
+    "fw_download_failed": {
+      "message": "Pobieranie oprogramowania układowego nie powiodło się: {status}"
+    },
+    "fw_downgrade_blocked": {
+      "message": "Nie można wygenerować aktualizacji dla wersji {target_version}, ponieważ jest ona starsza niż aktualnie zainstalowana wersja {current_version}. Downgrade nie jest obsługiwany."
+    },
+    "fw_update_package_ready_msg": {
+      "message": "Pakiet aktualizacji dla {target_version} jest gotowy:\n{url}"
+    },
+    "fw_update_package_ready_title": {
+      "message": "Aktualizacja Robobrocks {target_version} gotowa"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interwał odpytywania (minuty)",
+          "full_refresh_interval": "Interwał pełnego odświeżania (godziny)",
+          "master_code": "Kod nadrzędny do otwierania (opcjonalnie)",
+          "anonymize_logs": "Anonimizuj logi (zastępuje klucze i kody PIN fikcyjnymi wartościami)"
+        },
+        "description": "Skonfiguruj, jak często Home Assistant łączy się z urządzeniem Robobrocks, aby zaktualizować status."
+      }
+    }
+  },
+  "selector": {
+    "setup_method": {
+      "options": {
+        "cloud": "Logowanie w chmurze (Automatyczne - wymaga ważnych danych uwierzytelniających do oficjalnej aplikacji Robobrocks)",
+        "manual": "Wprowadzanie ręczne"
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_logs": {
+        "name": "Synchronizuj logi"
+      }
+    },
+    "lock": {
+      "door": {
+        "name": "Drzwi"
+      }
+    },
+    "sensor": {
+      "battery": {
+        "name": "Bateria"
+      },
+      "last_event": {
+        "name": "Ostatnie zdarzenie",
+        "state": {
+          "no_events": "Brak zdarzeń",
+          "code_ble_valid": "Użyto prawidłowego kodu BLE",
+          "code_key_valid": "Użyto prawidłowego kodu klawiatury",
+          "code_ble_invalid": "Nieprawidłowe polecenie BLE",
+          "code_key_invalid": "Użyto nieprawidłowego kodu klawiatury",
+          "door_closed": "Drzwi zamknięte",
+          "door_opened": "Drzwi otwarte",
+          "history_erase": "Historia wyczyszczona",
+          "power_off": "Wyłączenie",
+          "block_reset": "Reset bloku",
+          "power_on": "Włączenie",
+          "ble_reboot": "Restart BLE",
+          "scale_measure": "Ciągły pomiar wagi",
+          "key_opening": "Otwarcie kluczem",
+          "error": "Błąd (diagnostyczny)",
+          "nfc_opening": "Otwarcie NFC",
+          "nfc_tag_registering_scan": "Skanowanie tagu NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (tercjarny)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Nieznane zdarzenie",
+          "diagnostic_error_bc": "Wewnętrzny błąd MFRC630 (0xBC)",
+          "diagnostic_error_integrity": "Błąd integralności (CRC/Parzystość)",
+          "diagnostic_error_no_tag": "Nie wykryto tagu / Limit czasu",
+          "diagnostic_error_collision": "Wykryto kolizję tagów",
+          "diagnostic_error_buffer": "Przepełnienie bufora",
+          "diagnostic_error_unknown": "Nieznany błąd techniczny",
+          "power_off_reason_1": "Reset sprzętowy (PIN)",
+          "power_off_reason_2": "Watchdog (Automatyczny restart)",
+          "power_off_reason_3": "Restart programowy",
+          "power_off_reason_4": "Zablokowanie systemu (Lockup)",
+          "power_off_reason_5": "Włączenie zasilania",
+          "power_off_reason_6": "Wybudzenie NFC",
+          "power_off_reason_7": "Wybudzenie po wyłączeniu systemu",
+          "power_off_reason_8": "Wybudzenie LPCOMP"
+        }
+      },
+      "master_codes_count": {
+        "name": "Kody nadrzędne"
+      },
+      "single_use_codes_count": {
+        "name": "Kody jednorazowe"
+      },
+      "battery_format": {
+        "name": "Format baterii",
+        "state": {
+          "measures-first-min-mean-max-last": "Szczegółowy (Min/Średnia/Max)",
+          "measures-t1-t5-t10": "Szczegółowy (T1/T5/T10)",
+          "measure-single": "Prosty",
+          "unknown": "Nieznany",
+          "other": "Inny"
+        }
+      },
+      "battery_type": {
+        "name": "Typ baterii",
+        "state": {
+          "lsh14": "LSH14 (Litowa)",
+          "8x_aaa": "8x AAA (Alkaiczna)",
+          "unknown": "Nieznany",
+          "other": "Inny"
+        }
+      },
+      "battery_level_first": {
+        "name": "Napięcie baterii (Pierwsze)"
+      },
+      "battery_level_min": {
+        "name": "Napięcie baterii (Min)"
+      },
+      "battery_level_mean": {
+        "name": "Napięcie baterii (Średnie)"
+      },
+      "battery_level_max": {
+        "name": "Napięcie baterii (Max)"
+      },
+      "battery_level_last": {
+        "name": "Napięcie baterii (Ostatnie)"
+      },
+      "battery_level_t1": {
+        "name": "Napięcie baterii (T1)"
+      },
+      "battery_level_t5": {
+        "name": "Napięcie baterii (T5)"
+      },
+      "battery_level_t10": {
+        "name": "Napięcie baterii (T10)"
+      },
+      "maintenance_status": {
+        "name": "Status konserwacji",
+        "state": {
+          "idle": "Bezczynność",
+          "cleaning": "Czyszczenie kodów nadrzędnych"
+        }
+      },
+      "log_count": {
+        "name": "Liczba logów"
+      }
+    },
+    "todo": {
+      "parcels": {
+        "name": "Paczki"
+      }
+    },
+    "event": {
+      "logs": {
+        "name": "Logi",
+        "state": {
+          "code_ble_valid": "Użyto prawidłowego kodu BLE",
+          "code_key_valid": "Użyto prawidłowego kodu klawiatury",
+          "code_ble_invalid": "Nieprawidłowe polecenie BLE",
+          "code_key_invalid": "Użyto nieprawidłowego kodu klawiatury",
+          "door_closed": "Drzwi zamknięte",
+          "door_opened": "Drzwi otwarte",
+          "history_erase": "Historia wyczyszczona",
+          "power_off": "Wyłączenie",
+          "block_reset": "Reset bloku",
+          "power_on": "Włączenie",
+          "ble_reboot": "Restart BLE",
+          "scale_measure": "Ciągły pomiar wagi",
+          "key_opening": "Otwarcie kluczem",
+          "error": "Błąd (diagnostyczny)",
+          "nfc_opening": "Otwarcie NFC",
+          "nfc_tag_registering_scan": "Skanowanie tagu NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (tercjarny)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Nieznane zdarzenie"
+        }
+      }
+    },
+    "update": {
+      "firmware_update": {
+        "name": "Aktualizacja oprogramowania układowego"
+      }
+    }
+  },
+  "services": {
+    "add_parcel": {
+      "name": "Dodaj paczkę",
+      "description": "Dodaje nową paczkę do listy",
+      "fields": {
+        "description": {
+          "name": "Opis",
+          "description": "Dodaje opis do paczki",
+          "example": "Dostawa książek"
+        }
+      }
+    },
+    "open_door": {
+      "name": "Otwórz drzwi",
+      "description": "Otwiera drzwi urządzenia Robobrocks, opcjonalnie za pomocą kodu PIN.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN używany do otwierania (0-9, A, B).",
+          "example": "123456"
+        }
+      }
+    },
+    "add_master_code": {
+      "name": "Dodaj kod nadrzędny",
+      "description": "Dodaje nowy kod nadrzędny do urządzenia Robobrocks pod określonym indeksem. Zastąpi on wszelkie istniejące kody pod tym indeksem.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN (0-9, A, B).",
+          "example": "1234AB"
+        },
+        "index": {
+          "name": "Indeks",
+          "description": "Indeks pamięci dla kodu nadrzędnego (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "delete_master_code": {
+      "name": "Usuń kod nadrzędny",
+      "description": "Usuwa kod nadrzędny z urządzenia Robobrocks przy użyciu jego indeksu.",
+      "fields": {
+        "index": {
+          "name": "Indeks",
+          "description": "Indeks kodu nadrzędnego do usunięcia (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "add_single_code": {
+      "name": "Dodaj kod jednorazowy",
+      "description": "Dodaje nowy kod jednorazowy do urządzenia Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_single_code": {
+      "name": "Usuń kod jednorazowy",
+      "description": "Usuwa kod jednorazowy z urządzenia Robobrocks przy użyciu jego wartości.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN (0-9, A, B) do usunięcia.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "add_multi_code": {
+      "name": "Dodaj kod wielokrotny",
+      "description": "Dodaje nowy kod wielokrotny do urządzenia Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_multi_code": {
+      "name": "Usuń kod wielokrotny",
+      "description": "Usuwa kod wielokrotny z urządzenia Robobrocks przy użyciu jego wartości.",
+      "fields": {
+        "code": {
+          "name": "Kod PIN",
+          "description": "6-znakowy kod PIN (0-9, A, B) do usunięcia.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "clean_master_codes": {
+      "name": "Wyczyść kody nadrzędne",
+      "description": "Skanuje i usuwa kody nadrzędne w określonym zakresie indeksów, aby usunąć kody widma. Limit: 100 indeksów na jedno uruchomienie.",
+      "fields": {
+        "start_index": {
+          "name": "Indeks początkowy",
+          "description": "Indeks, od którego należy rozpocząć czyszczenie (0-255)."
+        },
+        "range": {
+          "name": "Zakres",
+          "description": "Liczba indeksów do zeskanowania (Maks. 100)."
+        }
+      }
+    },
+    "sync_logs": {
+      "name": "Synchronizuj logi",
+      "description": "Ręcznie pobiera logi z urządzenia Robobrocks i wyzwala powiązane zdarzenia."
+    },
+    "set_configuration": {
+      "name": "Ustaw konfigurację",
+      "description": "Zmienia ustawienia konfiguracji urządzenia Robobrocks (NFC, sprzęt itp.).",
+      "fields": {
+        "laposte": {
+          "name": "La Poste (Vigik)",
+          "description": "Włącza lub wyłącza rozpoznawanie tagów La Poste."
+        }
+      }
+    },
+    "nfc_scan_start": {
+      "name": "Rozpocznij skanowanie NFC",
+      "description": "Uruchamia tryb skanowania tagów NFC na 6 sekund."
+    },
+    "nfc_register_tag": {
+      "name": "Zarejestruj tag NFC",
+      "description": "Rejestruje tag NFC na białej liście. WYMAGANIE WSTĘPNE: Musisz najpierw uruchomić usługę 'Rozpocznij skanowanie NFC' i zeskanować tag.",
+      "fields": {
+        "uid": {
+          "name": "UID tagu",
+          "description": "Unikalny identyfikator tagu (np. A1B2C3D4)."
+        },
+        "name": {
+          "name": "Przyjazna nazwa",
+          "description": "Opcjonalna nazwa do zapisania w rejestrze tagów HA."
+        }
+      }
+    },
+    "nfc_unregister_tag": {
+      "name": "Wyrejestruj tag NFC",
+      "description": "Usuwa tag NFC z białej listy urządzenia Robobrocks.",
+      "fields": {
+        "uid": {
+          "name": "UID tagu",
+          "description": "Unikalny identyfikator tagu do usunięcia."
+        }
+      }
+    },
+    "ask_door_status": {
+      "name": "Sprawdź status drzwi",
+      "description": "Ręcznie odpytaj Robobrocks, aby sprawdzić, czy drzwi są otwarte czy zamknięte."
+    },
+    "generate_update_package": {
+      "name": "Generuj pakiet aktualizacji",
+      "description": "Przygotowuje lokalną stronę internetową do aktualizacji oprogramowania układowego Robobrocks przez Bluetooth.",
+      "fields": {
+        "version": {
+          "name": "Wersja docelowa",
+          "description": "Wersja oprogramowania układowego do pobrania (np. 4.3.3)."
+        }
+      }
+    },
+    "delete_update_package": {
+      "name": "Usuń pakiet aktualizacji",
+      "description": "Usuwa plik oprogramowania układowego i interfejs aktualizacji dla określonej wersji.",
+      "fields": {
+        "version": {
+          "name": "Wersja",
+          "description": "Wersja oprogramowania do usunięcia (np. 4.2.0)"
+        }
+      }
+    },
+    "generate_pin_code": {
+      "name": "Wygeneruj kod PIN",
+      "description": "Generuje kod PIN przy użyciu zastrzeżonego algorytmu Robobrocks.",
+      "fields": {
+        "type": {
+          "name": "Typ kodu",
+          "description": "Typ kodu do wygenerowania (główny, jednorazowy, wielokrotny)."
+        },
+        "index": {
+          "name": "Indeks",
+          "description": "Indeks generowania (zaczyna się od 0)."
+        }
+      }
+    }
+  }
+}

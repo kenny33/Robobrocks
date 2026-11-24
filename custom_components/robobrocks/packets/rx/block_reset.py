@@ -1,0 +1,27 @@
+"""RX Packet: Block Reset."""
+from ...ble.const import RobobrocksHistoryEvent
+from ..base import RobobrocksHistoryLogPacket
+
+
+class BlockResetPacket(RobobrocksHistoryLogPacket):
+    """Log entry for block reset event."""
+
+    OPCODES = RobobrocksHistoryEvent.BLOCK_RESET
+
+    def __init__(self, raw_data: bytearray):
+        super().__init__(RobobrocksHistoryEvent.BLOCK_RESET, raw_data)
+        self.reset_info = self.log_payload.hex() if self.log_payload else ""
+
+    @property
+    def extra_data(self) -> dict:
+        return {"reset_info": self.reset_info}
+
+    def to_log_dict(self, anonymize: bool = True) -> dict[str, str]:
+        payload = self._get_base_log_payload()
+        if self.reset_info:
+            payload = f"{payload}, ResetInfo={self.reset_info}"
+        return {
+            "payload": payload,
+            "raw": self.raw_data.hex(),
+            "suffix": ""
+        }

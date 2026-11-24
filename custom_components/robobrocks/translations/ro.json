@@ -1,0 +1,673 @@
+{
+  "common": {
+    "maintenance_success_title": "Întreținere Robobrocks",
+    "maintenance_success_msg": "Curățarea codurilor master a fost finalizată.\n{range} indecși scanați începând de la {start_index}.",
+    "nfc_tag_found_title": "Tag NFC Robobrocks descoperit",
+    "nfc_tag_found_msg": "Un nou tag NFC cu UID {uid} a fost detectat la Robobrocks.",
+    "nfc_tag_found_msg_named": "Tagul {name} ({uid}) a fost scanat la Robobrocks.",
+    "nfc_tag_found_register_help": "Utilizați serviciul robobrocks.nfc_register_tag pentru a-l asocia cu un nume.",
+    "nfc_tag_exists_title": "Tag NFC Robobrocks deja înregistrat",
+    "nfc_tag_exists_msg": "Tagul NFC cu UID {uid} este deja înregistrat la acest Robobrocks.",
+    "nfc_tag_exists_msg_named": "Tagul {name} ({uid}) este deja înregistrat la acest Robobrocks.",
+    "nfc_tag_exists_msg_unknown": "Tagul NFC prezentat este deja înregistrat la acest Robobrocks.",
+    "nfc_scan_started_title": "Scanare NFC activată",
+    "nfc_scan_started_msg": "Robobrocks este în modul de ascultare. Prezentați tagul NFC imediat (timeout 6s).",
+    "nfc_scan_timeout_title": "Scanare NFC finalizată",
+    "nfc_scan_timeout_msg": "Timpul de așteptare de 6 secunde a expirat. Nu a fost detectat niciun tag.",
+    "nfc_register_error_title": "Eroare de înregistrare",
+    "nfc_register_error_msg": "Nu s-a putut înregistra tagul {uid}. Dispozitivul nu a răspuns.",
+    "maintenance_progress_msg": "Curățare index {current}/{total} (Succes: {cleaned})",
+    "maintenance_idle_msg": "Inactiv",
+    "maintenance_finished_msg": "Curățare finalizată (Succes: {cleaned})"
+  },
+  "config": {
+    "step": {
+      "cloud": {
+        "title": "Autentificare Robobrocks",
+        "description": "Introduceți datele de autentificare ale aplicației Robobrocks pentru a recupera automat cheile dispozitivului.",
+        "data": {
+          "username": "Email",
+          "password": "Parolă"
+        }
+      },
+      "device_selection": {
+        "title": "Selectați Robobrocks-ul dvs.",
+        "description": "Selectați ce Robobrocks doriți să adăugați.",
+        "data": {
+          "device": "Dispozitiv"
+        }
+      },
+      "user": {
+        "title": "Configurare manuală",
+        "description": "Introduceți cheia Robobrocks.\n\n**Ordine de preferință:**\n1. **Cheie Master (64 caractere):** Acces complet.\n2. **Cheie Config (8 caractere):** Acces standard.",
+        "data": {
+          "mac": "Adresă Bluetooth",
+          "master_code": "Cod Master",
+          "credential": "Cheie (ConfigKey sau MasterKey)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nu s-a putut conecta la API Robobrocks.",
+      "invalid_auth": "Email sau parolă nevalidă.",
+      "robobrocks_not_found": "Nu s-a găsit niciun Robobrocks pe acest cont care să corespundă adresei MAC.",
+      "cannot_retrieve_key": "Nu s-a putut recupera cheia de configurare din cloud.",
+      "device_not_found": "Dispozitivul nu a fost găsit în listă.",
+      "device_not_in_cache": "Dispozitivul nu a fost găsit în cache-ul Bluetooth. Nicio cale de conectare disponibilă.",
+      "no_devices_found": "Nu s-au găsit dispozitive Robobrocks pe acest cont.",
+      "connection_error": "Eroare de conexiune în timpul preluării dispozitivelor.",
+      "invalid_credential_format": "Format de cheie nevalid. Trebuie să fie 8/64 caractere hex.",
+      "invalid_master_code_format": "Format cod master nevalid. Trebuie să fie un cod de 6 cifre (0-9, A, B).",
+      "unknown": "A apărut o eroare necunoscută.",
+      "pin_code_invalid_length": "Codul PIN trebuie să aibă 6 caractere.",
+      "pin_code_invalid": "Cod PIN nevalid.",
+      "unauthorized": "Neautorizat.",
+      "config_key_required": "Cheia de configurare este necesară pentru această operațiune.",
+      "invalid_code_format": "Format cod nevalid (trebuie să aibă 6 caractere între 0-9, A, B).",
+      "create_code_failed": "Crearea codului a eșuat (dispozitivul a returnat o eroare).",
+      "change_master_code_failed": "Modificarea codului master a eșuat (dispozitivul a returnat o eroare).",
+      "unknown_code_type": "Tip de cod necunoscut.",
+      "unknown_device": "Dispozitivul nu este văzut de adaptorul Bluetooth.",
+      "not_connectable": "Dispozitivul detectat nu este conectabil (probabil printr-un proxy pasiv).",
+      "todo_entity_not_found_for_device": "Nu s-a găsit nicio entitate Todo pentru dispozitivul {target_device_id}.",
+      "target_devices_not_robobrocks": "Dispozitivele țintă {device_ids} nu sunt dispozitive Robobrocks.",
+      "target_entities_not_robobrocks": "Entitățile țintă {entity_ids} aparțin unor dispozitive care nu sunt Robobrocks.",
+      "target_device_missing": "Dispozitivul Robobrocks țintă nu a fost găsit sau nu a fost specificat. Vă rugăm să specificați un device_id sau entity_id.",
+      "multiple_devices_found": "S-au găsit mai multe dispozitive Robobrocks. Vă rugăm să specificați o entitate sau un dispozitiv țintă.",
+      "no_devices_configured": "Nu există dispozitive Robobrocks configurate.",
+      "cannot_resolve_todo": "Nu s-a putut rezolva o listă de sarcini Robobrocks țintă.",
+      "todo_integration_not_loaded": "Integrarea Todo nu este încărcată.",
+      "todo_entity_not_found": "Entitatea Todo {target_entity_id} nu a fost găsită sau nu este încărcată.",
+      "config_key_invalid_length": "Cheia de configurare trebuie să aibă exact 8 caractere.",
+      "ble_client_none": "Clientul BLE este nul, nu se poate trimite comanda.",
+      "timeout_waiting_response": "Timp expirat în așteptarea răspunsului pentru opcode {opcode}.",
+      "ble_error": "Eroare BLE: {error}",
+      "ble_internal_error": "Eroare internă BLE: {error}",
+      "entity_not_parcel_list": "Entitatea {target_entity_id} nu este o listă de colete Robobrocks.",
+      "maintenance_already_running": "O sarcină de întreținere este deja în desfășurare. Vă rugăm să așteptați finalizarea acesteia.",
+      "delete_code_failed": "Ștergerea codului a eșuat (dispozitivul a returnat o eroare).",
+      "set_configuration_failed": "Setarea configurației {config_type} a eșuat (dispozitivul a returnat o eroare).",
+      "laposte_firmware_version_required": "Versiunea firmware trebuie să fie mai mare de {required_version} pentru a activa funcția La Poste. Versiunea curentă: {current_version}",
+      "firmware_version_required": "Versiunea firmware trebuie să fie mai mare de {required_version} pentru a utiliza această funcție. Versiunea curentă: {current_version}",
+      "firmware_update_failed": "Nu s-a putut declanșa actualizarea firmware pentru versiunea {version}",
+      "door_opened_recently": "Ușa a fost deschisă recent. Vă rugăm să așteptați {seconds} secunde înainte de a o deschide din nou.",
+      "opening_failed_no_code": "Deschiderea a eșuat: nu a fost furnizat niciun cod PIN, nu există niciun cod master stocat și nu s-a putut genera un PIN de unică folosință.",
+      "opening_failed_no_code_no_key": "Deschiderea a eșuat: nu a fost furnizat niciun cod PIN, nu există niciun cod master stocat și nu s-a putut genera un PIN de unică foloință (nicio cheie de configurare disponibilă).",
+      "hardware_unsupported": "Funcția {feature} necesită un Robobrocks v{required_hw} sau mai nou. Versiunea dvs. curentă este v{current_hw}.",
+      "firmware_update_required": "Funcția {feature} necesită versiunea firmware {required_sw}. Versiunea dvs. curentă este {current_sw}.",
+      "unexpected_create_code_error": "Eroare neașteptată la crearea codului: {error}",
+      "unexpected_delete_code_error": "Eroare neașteptată la ștergerea codului: {error}",
+      "unexpected_set_configuration_error": "Eroare neașteptată la schimbarea configurației: {error}",
+      "unexpected_register_tag_error": "Eroare neașteptată la înregistrarea tagului: {error}",
+      "unexpected_unregister_tag_error": "Eroare neașteptată la eliminarea tagului: {error}"
+    },
+    "abort": {
+      "already_configured": "Acest Robobrocks este deja configurat.",
+      "not_connectable": "Dispozitivul detectat nu este conectabil (probabil printr-un proxy pasiv).",
+      "cannot_connect": "Nu s-a putut conecta la dispozitiv. Verificați dacă este în raza de acțiune și conectabil."
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Nu s-a putut conecta la API Robobrocks."
+    },
+    "invalid_auth": {
+      "message": "Email sau parolă nevalidă."
+    },
+    "robobrocks_not_found": {
+      "message": "Nu s-a găsit niciun Robobrocks pe acest cont care să corespundă adresei MAC."
+    },
+    "cannot_retrieve_key": {
+      "message": "Nu s-a putut recupera cheia de configurare din cloud."
+    },
+    "device_not_found": {
+      "message": "Dispozitivul nu a fost găsit în listă."
+    },
+    "device_not_in_cache": {
+      "message": "Dispozitivul nu a fost găsit în cache-ul Bluetooth. Nicio cale de conectare disponibilă."
+    },
+    "no_devices_found": {
+      "message": "Nu s-au găsit dispozitive Robobrocks pe acest cont."
+    },
+    "connection_error": {
+      "message": "Eroare de conexiune în timpul preluării dispozitivelor."
+    },
+    "invalid_credential_format": {
+      "message": "Format de cheie nevalid. Trebuie să fie 8/64 caractere hex."
+    },
+    "invalid_master_code_format": {
+      "message": "Formatul codului master este nevalid. Trebuie să fie un cod de 6 cifre (0-9, A, B)."
+    },
+    "unknown": {
+      "message": "A apărut o eroare necunoscută."
+    },
+    "pin_code_invalid_length": {
+      "message": "Codul PIN trebuie să aibă 6 caractere."
+    },
+    "pin_code_invalid": {
+      "message": "Cod PIN nevalid."
+    },
+    "master_key_required": {
+      "message": "Cheia principală este necesară pentru a genera coduri PIN. Vă rugăm să verificați configurația integrării."
+    },
+    "master_key_invalid": {
+      "message": "Cheia principală configurată este nevalidă (trebuie să fie 32 octeți hex)."
+    },
+    "unauthorized": {
+      "message": "Neautorizat."
+    },
+    "config_key_required": {
+      "message": "Cheia de configurare este necesară pentru această operațiune."
+    },
+    "invalid_code_format": {
+      "message": "Formatul codului este nevalid (trebuie să aibă 6 caractere între 0-9, A, B)."
+    },
+    "create_code_failed": {
+      "message": "Crearea codului a eșuat (dispozitivul a returnat o eroare)."
+    },
+    "change_master_code_failed": {
+      "message": "Schimbarea codului master a eșuat (dispozitivul a returnat o eroare)."
+    },
+    "unknown_code_type": {
+      "message": "Tip de cod necunoscut."
+    },
+    "unknown_device": {
+      "message": "Dispozitivul nu este văzut de adaptorul Bluetooth."
+    },
+    "not_connectable": {
+      "message": "Dispozitivul detectat nu este conectabil (probabil printr-un proxy pasiv)."
+    },
+    "todo_entity_not_found_for_device": {
+      "message": "Nu s-a găsit nicio entitate Todo pentru dispozitivul {target_device_id}."
+    },
+    "target_devices_not_robobrocks": {
+      "message": "Dispozitivele țintă nu sunt dispozitive Robobrocks."
+    },
+    "target_entities_not_robobrocks": {
+      "message": "Entitățile țintă nu aparțin dispozitivelor Robobrocks."
+    },
+    "target_device_missing": {
+      "message": "Dispozitivul Robobrocks țintă nu a fost găsit sau nu a fost specificat. Vă rugăm să specificați un device_id sau entity_id."
+    },
+    "multiple_devices_found": {
+      "message": "S-au găsit mai multe dispozitive Robobrocks. Vă rugăm să specificați o entitate sau un dispozitiv țintă."
+    },
+    "no_devices_configured": {
+      "message": "Nu există dispozitive Robobrocks configurate."
+    },
+    "cannot_resolve_todo": {
+      "message": "Nu s-a putut rezolva o listă de sarcini Robobrocks țintă."
+    },
+    "todo_integration_not_loaded": {
+      "message": "Integrarea Todo nu este încărcată."
+    },
+    "todo_entity_not_found": {
+      "message": "Entitatea Todo {target_entity_id} nu a fost găsită sau nu este încărcată."
+    },
+    "config_key_invalid_length": {
+      "message": "Cheia de configurare trebuie să aibă exact 8 caractere."
+    },
+    "ble_client_none": {
+      "message": "Clientul BLE este nul, nu se poate trimite comanda."
+    },
+    "timeout_waiting_response": {
+      "message": "Timp expirat în așteptarea răspunsului pentru opcode {opcode}."
+    },
+    "ble_error": {
+      "message": "Eroare BLE: {error}"
+    },
+    "ble_internal_error": {
+      "message": "Eroare internă BLE: {error}"
+    },
+    "entity_not_parcel_list": {
+      "message": "Entitatea {target_entity_id} nu este o listă de colete Robobrocks."
+    },
+    "maintenance_already_running": {
+      "message": "O sarcină de întreținere este deja în desfășurare. Vă rugăm să așteptați finalizarea acesteia."
+    },
+    "delete_code_failed": {
+      "message": "Ștergerea codului a eșuat (dispozitivul a returnat o eroare)."
+    },
+    "set_configuration_failed": {
+      "message": "Setarea configurației {config_type} a eșuat (dispozitivul a returnat o eroare)."
+    },
+    "laposte_firmware_version_required": {
+      "message": "Versiunea firmware trebuie să fie mai mare de {required_version} pentru a activa funcția La Poste. Versiunea curentă: {current_version}"
+    },
+    "firmware_version_required": {
+      "message": "Versiunea firmware trebuie să fie mai mare de {required_version} pentru a utiliza această funcție. Versiunea curentă: {current_version}"
+    },
+    "firmware_update_failed": {
+      "message": "Nu s-a putut declanșa actualizarea firmware pentru versiunea {version}"
+    },
+    "door_opened_recently": {
+      "message": "Ușa a fost deschisă recent. Vă rugăm să așteptați {seconds} secunde înainte de a o deschide din nou."
+    },
+    "opening_failed_no_code": {
+      "message": "Deschiderea a eșuat: nu a fost furnizat niciun cod PIN, nu există niciun cod master stocat și nu s-a putut genera un PIN de unică folosință."
+    },
+    "opening_failed_no_code_no_key": {
+      "message": "Deschiderea a eșuat: nu a fost furnizat niciun cod PIN, nu există niciun cod master stocat și nu s-a putut genera un PIN de unică foloință (nicio cheie de configurare disponibilă)."
+    },
+    "hardware_unsupported": {
+      "message": "Funcția {feature} necesită un Robobrocks v{required_hw} sau mai nou. Versiunea dvs. curentă este v{current_hw}."
+    },
+    "firmware_update_required": {
+      "message": "Funcția {feature} necesită versiunea firmware {required_sw}. Versiunea dvs. curentă este {current_sw}."
+    },
+    "item_not_found": {
+      "message": "Elementul nu a fost găsit"
+    },
+    "operation_timed_out": {
+      "message": "Operațiunea a expirat după {seconds} secunde."
+    },
+    "busy": {
+      "message": "Dispozitiv ocupat: o altă operațiune ascultă deja notificările."
+    },
+    "lock_entity_not_found": {
+      "message": "Entitatea de blocare nu a fost găsită pentru acest dispozitiv."
+    },
+    "invalid_uid_format": {
+      "message": "Format UID NFC nevalid."
+    },
+    "invalid_master_code_index": {
+      "message": "Index cod master nevalid (trebuie să fie între 0 și 255)."
+    },
+    "nfc_tag_already_exists": {
+      "message": "Acest tag NFC este deja înregistrat în Robobrocks."
+    },
+    "maintenance_failed_msg": {
+      "message": "Întreținere eșuată: {error}"
+    },
+    "maintenance_error_title": {
+      "message": "Eroare de întreținere Robobrocks"
+    },
+    "maintenance_error_msg": {
+      "message": "Curățarea codurilor master a eșuat la indexul {current_idx}.\nEroare: {error}"
+    },
+    "fw_hw_rev_unknown": {
+      "message": "Nu s-a putut determina revizia internă a firmware-ului (ID hardware). Asigurați-vă că dispozitivul este accesibil."
+    },
+    "fw_hw_unsupported": {
+      "message": "Hardware neacceptat sau revizie necunoscută: {revision}"
+    },
+    "fw_version_not_found": {
+      "message": "Versiunea {version} nu este disponibilă pentru hardware-ul {revision}"
+    },
+    "fw_download_failed": {
+      "message": "Descărcarea firmware-ului a eșuat: {status}"
+    },
+    "fw_downgrade_blocked": {
+      "message": "Nu se poate genera actualizarea pentru versiunea {target_version} deoarece este mai veche decât versiunea instalată curent {current_version}. Downgrade-ul nu este acceptat."
+    },
+    "fw_update_package_ready_msg": {
+      "message": "Pachetul de actualizare pentru {target_version} este gata:\n{url}"
+    },
+    "fw_update_package_ready_title": {
+      "message": "Actualizare Robobrocks {target_version} gata"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval de interogare (minute)",
+          "full_refresh_interval": "Interval de reîmprospătare completă (ore)",
+          "master_code": "Cod Master pentru deschidere (opțional)",
+          "anonymize_logs": "Anonimizare loguri (Înlocuiește cheile și PIN-urile cu valori fictive)"
+        },
+        "description": "Configurați cât de des se conectează Home Assistant la Robobrocks pentru a actualiza starea."
+      }
+    }
+  },
+  "selector": {
+    "setup_method": {
+      "options": {
+        "cloud": "Autentificare Cloud (Automat - necesită date de autentificare valide pentru aplicația oficială Robobrocks)",
+        "manual": "Introducere manuală"
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_logs": {
+        "name": "Sincronizare loguri"
+      }
+    },
+    "lock": {
+      "door": {
+        "name": "Ușă"
+      }
+    },
+    "sensor": {
+      "battery": {
+        "name": "Baterie"
+      },
+      "last_event": {
+        "name": "Ultimul eveniment",
+        "state": {
+          "no_events": "Niciun eveniment",
+          "code_ble_valid": "Cod BLE valid utilizat",
+          "code_key_valid": "Cod tastatură valid utilizat",
+          "code_ble_invalid": "Comandă BLE nevalidă",
+          "code_key_invalid": "Cod tastatură nevalid utilizat",
+          "door_closed": "Ușă închisă",
+          "door_opened": "Ușă deschisă",
+          "history_erase": "Istoric șters",
+          "power_off": "Oprire",
+          "block_reset": "Resetare bloc",
+          "power_on": "Pornire",
+          "ble_reboot": "Repornire BLE",
+          "scale_measure": "Măsurare continuă cântar",
+          "key_opening": "Deschidere cu cheia",
+          "error": "Eroare (Diagnostic)",
+          "nfc_opening": "Deschidere NFC",
+          "nfc_tag_registering_scan": "Scanare tag NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (Terțiar)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Eveniment necunoscut",
+          "diagnostic_error_bc": "Eroare internă MFRC630 (0xBC)",
+          "diagnostic_error_integrity": "Eroare de integritate (CRC/Paritate)",
+          "diagnostic_error_no_tag": "Niciun tag detectat / Timp expirat",
+          "diagnostic_error_collision": "Coliziune de taguri detectată",
+          "diagnostic_error_buffer": "Depășire buffer",
+          "diagnostic_error_unknown": "Eroare tehnică necunoscută",
+          "power_off_reason_1": "Resetare hardware (PIN)",
+          "power_off_reason_2": "Watchdog (Repornire automată)",
+          "power_off_reason_3": "Resetare software",
+          "power_off_reason_4": "Blocare sistem (Lockup)",
+          "power_off_reason_5": "Pornire",
+          "power_off_reason_6": "Trezire NFC",
+          "power_off_reason_7": "Trezire oprire sistem",
+          "power_off_reason_8": "Trezire LPCOMP"
+        }
+      },
+      "master_codes_count": {
+        "name": "Coduri master"
+      },
+      "single_use_codes_count": {
+        "name": "Coduri de unică folosință"
+      },
+      "battery_format": {
+        "name": "Format baterie",
+        "state": {
+          "measures-first-min-mean-max-last": "Detaliat (Min/Med/Max)",
+          "measures-t1-t5-t10": "Detaliat (T1/T5/T10)",
+          "measure-single": "Simplu",
+          "unknown": "Necunoscut",
+          "other": "Altul"
+        }
+      },
+      "battery_type": {
+        "name": "Tip baterie",
+        "state": {
+          "lsh14": "LSH14 (Litiu)",
+          "8x_aaa": "8x AAA (Alcalină)",
+          "unknown": "Necunoscut",
+          "other": "Altul"
+        }
+      },
+      "battery_level_first": {
+        "name": "Tensiune baterie (Prima)"
+      },
+      "battery_level_min": {
+        "name": "Tensiune baterie (Min)"
+      },
+      "battery_level_mean": {
+        "name": "Tensiune baterie (Med)"
+      },
+      "battery_level_max": {
+        "name": "Tensiune baterie (Max)"
+      },
+      "battery_level_last": {
+        "name": "Tensiune baterie (Ultima)"
+      },
+      "battery_level_t1": {
+        "name": "Tensiune baterie (T1)"
+      },
+      "battery_level_t5": {
+        "name": "Tensiune baterie (T5)"
+      },
+      "battery_level_t10": {
+        "name": "Tensiune baterie (T10)"
+      },
+      "maintenance_status": {
+        "name": "Stare întreținere",
+        "state": {
+          "idle": "Inactiv",
+          "cleaning": "Curățare coduri master"
+        }
+      },
+      "log_count": {
+        "name": "Număr de loguri"
+      }
+    },
+    "todo": {
+      "parcels": {
+        "name": "Colete"
+      }
+    },
+    "event": {
+      "logs": {
+        "name": "Loguri",
+        "state": {
+          "code_ble_valid": "Cod BLE valid utilizat",
+          "code_key_valid": "Cod tastatură valid utilizat",
+          "code_ble_invalid": "Comandă BLE nevalidă",
+          "code_key_invalid": "Cod tastatură nevalid utilizat",
+          "door_closed": "Ușă închisă",
+          "door_opened": "Ușă deschisă",
+          "history_erase": "Istoric șters",
+          "power_off": "Oprire",
+          "block_reset": "Resetare bloc",
+          "power_on": "Pornire",
+          "ble_reboot": "Repornire BLE",
+          "scale_measure": "Măsurare continuă cântar",
+          "key_opening": "Deschidere cu cheia",
+          "error": "Eroare (Diagnostic)",
+          "nfc_opening": "Deschidere NFC",
+          "nfc_tag_registering_scan": "Scanare tag NFC",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (Terțiar)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Eveniment necunoscut"
+        }
+      }
+    },
+    "update": {
+      "firmware_update": {
+        "name": "Actualizare firmware"
+      }
+    }
+  },
+  "services": {
+    "add_parcel": {
+      "name": "Adăugare colet",
+      "description": "Adaugă un colet nou în listă",
+      "fields": {
+        "description": {
+          "name": "Descriere",
+          "description": "Adaugă o descriere coletului",
+          "example": "Livrare cărți"
+        }
+      }
+    },
+    "open_door": {
+      "name": "Deschidere ușă",
+      "description": "Deschide ușa Robobrocks, opțional cu un cod PIN.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere de utilizat pentru deschidere (0-9, A, B).",
+          "example": "123456"
+        }
+      }
+    },
+    "add_master_code": {
+      "name": "Adăugare cod master",
+      "description": "Adaugă un cod master nou la Robobrocks la un anumit index. Va suprascrie orice cod existent la acel index.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere (0-9, A, B).",
+          "example": "1234AB"
+        },
+        "index": {
+          "name": "Index",
+          "description": "Indexul de stocare pentru codul master (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "delete_master_code": {
+      "name": "Ștergere cod master",
+      "description": "Șterge un cod master de la Robobrocks folosind indexul său.",
+      "fields": {
+        "index": {
+          "name": "Index",
+          "description": "Indexul codului master de șters (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "add_single_code": {
+      "name": "Adăugare cod unic",
+      "description": "Adaugă un cod nou de unică folosință la Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_single_code": {
+      "name": "Ștergere cod unic",
+      "description": "Șterge un cod de unică folosință de la Robobrocks folosind valoarea sa.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere (0-9, A, B) de șters.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "add_multi_code": {
+      "name": "Adăugare cod multiplu",
+      "description": "Adaugă un cod nou cu utilizări multiple la Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_multi_code": {
+      "name": "Ștergere cod multiplu",
+      "description": "Șterge un cod cu utilizări multiple de la Robobrocks folosind valoarea sa.",
+      "fields": {
+        "code": {
+          "name": "Cod PIN",
+          "description": "Codul PIN de 6 caractere (0-9, A, B) de șters.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "clean_master_codes": {
+      "name": "Curățare coduri master",
+      "description": "Scanează și șterge codurile master într-un interval de indecși specificat pentru a elimina codurile fantomă. Limită: 100 indecși pe rulare.",
+      "fields": {
+        "start_index": {
+          "name": "Index de început",
+          "description": "Indexul de la care se începe curățarea (0-255)."
+        },
+        "range": {
+          "name": "Interval",
+          "description": "Numărul de indecși de scanat (Max 100)."
+        }
+      }
+    },
+    "sync_logs": {
+      "name": "Sincronizare loguri",
+      "description": "Preluare manuală a logurilor de la Robobrocks și declanșarea evenimentelor asociate."
+    },
+    "set_configuration": {
+      "name": "Setare configurație",
+      "description": "Modifică setările de configurare Robobrocks (NFC, hardware etc.).",
+      "fields": {
+        "laposte": {
+          "name": "La Poste (Vigik)",
+          "description": "Activează sau dezactivează recunoașterea tagurilor La Poste."
+        }
+      }
+    },
+    "nfc_scan_start": {
+      "name": "Pornire scanare NFC",
+      "description": "Pornește modul de scanare a tagurilor NFC timp de 6 secunde."
+    },
+    "nfc_register_tag": {
+      "name": "Înregistrare tag NFC",
+      "description": "Înregistrează un tag NFC în lista albă. PRECONDIȚIE: Trebuie să rulați mai întâi 'Pornire scanare NFC' și să scanați tagul.",
+      "fields": {
+        "uid": {
+          "name": "UID tag",
+          "description": "ID-ul unic al tagului (ex: A1B2C3D4)."
+        },
+        "name": {
+          "name": "Nume prietenos",
+          "description": "Nume opțional pentru salvarea în registrul de taguri HA."
+        }
+      }
+    },
+    "nfc_unregister_tag": {
+      "name": "Anulare înregistrare tag NFC",
+      "description": "Elimină un tag NFC din lista albă Robobrocks.",
+      "fields": {
+        "uid": {
+          "name": "UID tag",
+          "description": "ID-ul unic al tagului care urmează să fie eliminat."
+        }
+      }
+    },
+    "ask_door_status": {
+      "name": "Verifică starea ușii",
+      "description": "Interoghează manual Robobrocks pentru a verifica dacă ușa este deschisă sau închisă."
+    },
+    "generate_update_package": {
+      "name": "Generați pachetul de actualizare",
+      "description": "Pregătește o pagină web locală pentru a actualiza firmware-ul Robobrocks prin Bluetooth.",
+      "fields": {
+        "version": {
+          "name": "Versiune țintă",
+          "description": "Versiunea de firmware de descărcat (de ex. 4.3.3)."
+        }
+      }
+    },
+    "delete_update_package": {
+      "name": "Șterge pachetul de actualizare",
+      "description": "Șterge fișierul firmware și interfața de actualizare pentru o anumită versiune.",
+      "fields": {
+        "version": {
+          "name": "Versiune",
+          "description": "Versiunea firmware de șters (ex: 4.2.0)"
+        }
+      }
+    },
+    "generate_pin_code": {
+      "name": "Generare cod PIN",
+      "description": "Generează un cod PIN folosind algoritmul proprietar Robobrocks.",
+      "fields": {
+        "type": {
+          "name": "Tip cod",
+          "description": "Tipul de cod de generat (master, unic, multi)."
+        },
+        "index": {
+          "name": "Index",
+          "description": "Indexul de generare (începe de la 0)."
+        }
+      }
+    }
+  }
+}

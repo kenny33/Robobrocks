@@ -1,0 +1,673 @@
+{
+  "common": {
+    "maintenance_success_title": "Údržba Robobrocks",
+    "maintenance_success_msg": "Čistenie hlavných kódov dokončené.\nNaskenovaných {range} indexov počnúc {start_index}.",
+    "nfc_tag_found_title": "Objavený NFC tag Robobrocks",
+    "nfc_tag_found_msg": "Na Robobrocks bol detegovaný nový NFC tag s UID {uid}.",
+    "nfc_tag_found_msg_named": "Tag {name} ({uid}) bol naskenovaný na Robobrocks.",
+    "nfc_tag_found_register_help": "Použite službu robobrocks.nfc_register_tag na priradenie mena.",
+    "nfc_tag_exists_title": "NFC tag Robobrocks je už zaregistrovaný",
+    "nfc_tag_exists_msg": "NFC tag s UID {uid} je už na tomto Robobrocks zaregistrovaný.",
+    "nfc_tag_exists_msg_named": "Tag {name} ({uid}) je už na tomto Robobrocks zaregistrovaný.",
+    "nfc_tag_exists_msg_unknown": "Predložený NFC tag je už na tomto Robobrocks zaregistrovaný.",
+    "nfc_scan_started_title": "Skenovanie NFC aktivované",
+    "nfc_scan_started_msg": "Robobrocks je v režime počúvania. Ihneď priložte svoj NFC tag (časový limit 6s).",
+    "nfc_scan_timeout_title": "Skenovanie NFC ukončené",
+    "nfc_scan_timeout_msg": "Časový limit 6 sekúnd vypršal. Nebol detegovaný žiadny tag.",
+    "nfc_register_error_title": "Chyba registrácie",
+    "nfc_register_error_msg": "Nepodarilo sa zaregistrovať tag {uid}. Zariadenie neodpovedá.",
+    "maintenance_progress_msg": "Čistenie indexu {current}/{total} (Úspech: {cleaned})",
+    "maintenance_idle_msg": "Nečinný",
+    "maintenance_finished_msg": "Čistenie dokončené (Úspech: {cleaned})"
+  },
+  "config": {
+    "step": {
+      "cloud": {
+        "title": "Prihlásenie Robobrocks",
+        "description": "Zadajte svoje prihlasovacie údaje k aplikácii Robobrocks pre automatické získanie kľúčov k zariadeniu.",
+        "data": {
+          "username": "E-mail",
+          "password": "Heslo"
+        }
+      },
+      "device_selection": {
+        "title": "Vyberte svoj Robobrocks",
+        "description": "Vyberte, ktorý Robobrocks chcete pridať.",
+        "data": {
+          "device": "Zariadenie"
+        }
+      },
+      "user": {
+        "title": "Ručná konfigurácia",
+        "description": "Zadajte svoje prihlasovacie údaje Robobrocks.\n\n**Poradie preferencií:**\n1. **Hlavný kľúč (64 znakov):** Plný prístup.\n2. **Konfiguračný kľúč (8 znakov):** Štandardný prístup.",
+        "data": {
+          "mac": "Bluetooth adresa",
+          "master_code": "Hlavný kód",
+          "credential": "Prihlasovací údaj (Konfiguračný kľúč alebo Hlavný kľúč)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Nemožno sa pripojiť k Robobrocks API.",
+      "invalid_auth": "Neplatný e-mail alebo heslo.",
+      "robobrocks_not_found": "Na tomto účte nebol nájdený žiadny Robobrocks zodpovedajúci MAC adrese.",
+      "cannot_retrieve_key": "Nepodarilo sa získať konfiguračný kľúč z cloudu.",
+      "device_not_found": "Zariadenie nebolo nájdené v zozname.",
+      "device_not_in_cache": "Zariadenie nebolo nájdené v pamäti cache Bluetooth. Nie je k dispozícii žiadna cesta na pripojenie.",
+      "no_devices_found": "Na tomto účte neboli nájdené žiadne zariadenia Robobrocks.",
+      "connection_error": "Chyba pripojenia pri načítaní zariadení.",
+      "invalid_credential_format": "Neplatný formát prihlasovacích údajov. Musí to byť 8/64 hex znakov.",
+      "invalid_master_code_format": "Neplatný formát hlavného kódu. Musí to byť šesťmiestny kód (0-9, A, B).",
+      "unknown": "Došlo k neznámej chybe.",
+      "pin_code_invalid_length": "PIN kód musí mať 6 znakov.",
+      "pin_code_invalid": "Neplatný PIN kód.",
+      "unauthorized": "Neoprávnený prístup.",
+      "config_key_required": "Pre túto operáciu je vyžadovaný konfiguračný kľúč.",
+      "invalid_code_format": "Neplatný formát kódu (musí mať 6 znakov z rozmedzia 0-9, A, B).",
+      "create_code_failed": "Nepodarilo sa vytvoriť kód (zariadenie vrátilo chybu).",
+      "change_master_code_failed": "Nepodarilo sa zmeniť hlavný kód (zariadenie vrátilo chybu).",
+      "unknown_code_type": "Neznámy typ kódu.",
+      "unknown_device": "Zariadenie nie je viditeľné pre Bluetooth adaptér.",
+      "not_connectable": "Detegované zariadenie nie je pripojiteľné (pravdepodobne cez pasívne proxy).",
+      "todo_entity_not_found_for_device": "Pre zariadenie {target_device_id} nebola nájdená žiadna entita Todo.",
+      "target_devices_not_robobrocks": "Cieľové zariadenia {device_ids} nie sú zariadenia Robobrocks.",
+      "target_entities_not_robobrocks": "Cieľové entity {entity_ids} nepatria k zariadeniam Robobrocks.",
+      "target_device_missing": "Cieľové zariadenie Robobrocks nebolo nájdené alebo nebolo špecifikované. Uveďte device_id alebo entity_id.",
+      "multiple_devices_found": "Bolo nájdených viac zariadení Robobrocks. Špecifikujte prosím cieľovú entitu alebo zariadenie.",
+      "no_devices_configured": "Nie sú konfigurované žiadne zariadenia Robobrocks.",
+      "cannot_resolve_todo": "Nepodarilo sa vyriešiť cieľový zoznam úloh Robobrocks.",
+      "todo_integration_not_loaded": "Integrácia Todo nie je načítaná.",
+      "todo_entity_not_found": "Entita Todo {target_entity_id} nebola nájdená alebo nie je načítaná.",
+      "config_key_invalid_length": "Konfiguračný kľúč musí mať presne 8 znakov.",
+      "ble_client_none": "BLE klient je None, nemožno odoslať príkaz.",
+      "timeout_waiting_response": "Vypršal časový limit čakania na odpoveď pre opcode {opcode}.",
+      "ble_error": "Chyba BLE: {error}",
+      "ble_internal_error": "Interná chyba BLE: {error}",
+      "entity_not_parcel_list": "Entita {target_entity_id} nie je zoznam balíkov Robobrocks.",
+      "maintenance_already_running": "Úloha údržby už prebieha. Počkajte prosím na jej dokončenie.",
+      "delete_code_failed": "Nepodarilo sa zmazať kód (zariadenie vrátilo chybu).",
+      "set_configuration_failed": "Nepodarilo sa nastaviť konfiguráciu {config_type} (zariadenie vrátilo chybu).",
+      "laposte_firmware_version_required": "Verzia firmvéru musí byť vyššia ako {required_version} pre povolenie funkcie La Poste. Aktuálna verzia: {current_version}",
+      "firmware_version_required": "Verzia firmvéru musí byť vyššia ako {required_version} na použitie tejto funkcie. Aktuálna verzia: {current_version}",
+      "firmware_update_failed": "Nepodarilo sa spustiť aktualizáciu firmvéru pre verziu {version}",
+      "door_opened_recently": "Dvere boli nedávno otvorené. Počkajte prosím {seconds} sekúnd pred ďalším otvorením.",
+      "opening_failed_no_code": "Otvorenie zlyhalo: nebol zadaný žiadny PIN kód, nie je uložený žiadny hlavný kód a nepodarilo sa vygenerovať jednorazový PIN.",
+      "opening_failed_no_code_no_key": "Otvorenie zlyhalo: nebol zadaný žiadny PIN kód, nie je uložený žiadny hlavný kód a nepodarilo sa vygenerovať jednorazový PIN (nie je k dispozícii konfiguračný kľúč).",
+      "hardware_unsupported": "Funkcia {feature} vyžaduje Robobrocks v{required_hw} alebo vyššiu. Vaša aktuálna verzia je v{current_hw}.",
+      "firmware_update_required": "Funkcia {feature} vyžaduje verziu firmvéru {required_sw}. Vaša aktuálna verzia je {current_sw}.",
+      "unexpected_create_code_error": "Neočakávaná chyba pri vytváraní kódu: {error}",
+      "unexpected_delete_code_error": "Neočakávaná chyba pri mazaní kódu: {error}",
+      "unexpected_set_configuration_error": "Neočakávaná chyba pri zmene konfigurácie: {error}",
+      "unexpected_register_tag_error": "Neočakávaná chyba pri registrácii tagu: {error}",
+      "unexpected_unregister_tag_error": "Neočakávaná chyba pri odregistrovaní tagu: {error}"
+    },
+    "abort": {
+      "already_configured": "Tento Robobrocks je už konfigurovaný.",
+      "not_connectable": "Detegované zariadenie nie je pripojiteľné (pravdepodobne cez pasívne proxy).",
+      "cannot_connect": "Nemožno sa pripojiť k zariadeniu. Skontrolujte, či je v dosahu a pripojiteľné."
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Nemožno sa pripojiť k Robobrocks API."
+    },
+    "invalid_auth": {
+      "message": "Neplatný e-mail alebo heslo."
+    },
+    "robobrocks_not_found": {
+      "message": "Na tomto účte nebol nájdený žiadny Robobrocks zodpovedajúci MAC adrese."
+    },
+    "cannot_retrieve_key": {
+      "message": "Nepodarilo sa získať konfiguračný kľúč z cloudu."
+    },
+    "device_not_found": {
+      "message": "Zariadenie nebolo nájdené v zozname."
+    },
+    "device_not_in_cache": {
+      "message": "Zariadenie nebolo nájdené v pamäti cache Bluetooth. Nie je k dispozícii žiadna cesta na pripojenie."
+    },
+    "no_devices_found": {
+      "message": "Na tomto účte neboli nájdené žiadne zariadenia Robobrocks."
+    },
+    "connection_error": {
+      "message": "Chyba pripojenia pri načítaní zariadení."
+    },
+    "invalid_credential_format": {
+      "message": "Neplatný formát prihlasovacích údajov. Musí to byť 8/64 hex znakov."
+    },
+    "invalid_master_code_format": {
+      "message": "Neplatný formát hlavného kódu. Musí to byť šesťmiestny kód (0-9, A, B)."
+    },
+    "unknown": {
+      "message": "Došlo k neznámej chybe."
+    },
+    "pin_code_invalid_length": {
+      "message": "PIN kód musí mať 6 znakov."
+    },
+    "pin_code_invalid": {
+      "message": "Neplatný PIN kód."
+    },
+    "master_key_required": {
+      "message": "Na generovanie PIN kódov je potrebný hlavný kľúč. Skontrolujte konfiguráciu integrácie."
+    },
+    "master_key_invalid": {
+      "message": "Nakonfigurovaný hlavný kľúč je neplatný (musí mať 32 bajtov hex)."
+    },
+    "unauthorized": {
+      "message": "Neoprávnený prístup."
+    },
+    "config_key_required": {
+      "message": "Pre túto operáciu je vyžadovaný konfiguračný kľúč."
+    },
+    "invalid_code_format": {
+      "message": "Formát kódu je neplatný (musí mať 6 znakov z rozmedzia 0-9, A, B)."
+    },
+    "create_code_failed": {
+      "message": "Vytvorenie kódu zlyhalo (zariadenie vrátilo chybu)."
+    },
+    "change_master_code_failed": {
+      "message": "Zmena hlavného kódu zlyhala (zariadenie vrátilo chybu)."
+    },
+    "unknown_code_type": {
+      "message": "Neznámy typ kódu."
+    },
+    "unknown_device": {
+      "message": "Zariadenie nie je viditeľné pre Bluetooth adaptér."
+    },
+    "not_connectable": {
+      "message": "Detegované zariadenie nie je pripojiteľné (pravdepodobne cez pasívne proxy)."
+    },
+    "todo_entity_not_found_for_device": {
+      "message": "Pre zariadenie {target_device_id} nebola nájdená žiadna entita Todo."
+    },
+    "target_devices_not_robobrocks": {
+      "message": "Cieľové zariadenia nie sú zariadenia Robobrocks."
+    },
+    "target_entities_not_robobrocks": {
+      "message": "Cieľové entity nepatria k zariadeniam Robobrocks."
+    },
+    "target_device_missing": {
+      "message": "Cieľové zariadenie Robobrocks nebolo nájdené alebo nebolo špecifikované. Uveďte device_id alebo entity_id."
+    },
+    "multiple_devices_found": {
+      "message": "Bolo nájdených viac zariadení Robobrocks. Špecifikujte prosím cieľovú entitu alebo zariadenie."
+    },
+    "no_devices_configured": {
+      "message": "Nie sú konfigurované žiadne zariadenia Robobrocks."
+    },
+    "cannot_resolve_todo": {
+      "message": "Nepodarilo sa vyriešiť cieľový zoznam úloh Robobrocks."
+    },
+    "todo_integration_not_loaded": {
+      "message": "Integrácia Todo nie je načítaná."
+    },
+    "todo_entity_not_found": {
+      "message": "Entita Todo {target_entity_id} nebola nájdená alebo nie je načítaná."
+    },
+    "config_key_invalid_length": {
+      "message": "Konfiguračný kľúč musí mať presne 8 znakov."
+    },
+    "ble_client_none": {
+      "message": "BLE klient je None, nemožno odoslať príkaz."
+    },
+    "timeout_waiting_response": {
+      "message": "Vypršal časový limit čakania na odpoveď pre opcode {opcode}."
+    },
+    "ble_error": {
+      "message": "Chyba BLE: {error}"
+    },
+    "ble_internal_error": {
+      "message": "Interná chyba BLE: {error}"
+    },
+    "entity_not_parcel_list": {
+      "message": "Entita {target_entity_id} nie je zoznam balíkov Robobrocks."
+    },
+    "maintenance_already_running": {
+      "message": "Úloha údržby už prebieha. Počkajte prosím na jej dokončenie."
+    },
+    "delete_code_failed": {
+      "message": "Zmazanie kódu zlyhalo (zariadenie vrátilo chybu)."
+    },
+    "set_configuration_failed": {
+      "message": "Nastavenie konfigurácie {config_type} zlyhalo (zariadenie vrátilo chybu)."
+    },
+    "laposte_firmware_version_required": {
+      "message": "Verzia firmvéru musí byť vyššia ako {required_version} pre povolenie funkcie La Poste. Aktuálna verzia: {current_version}"
+    },
+    "firmware_version_required": {
+      "message": "Verzia firmvéru musí byť vyššia ako {required_version} na použitie tejto funkcie. Aktuálna verzia: {current_version}"
+    },
+    "firmware_update_failed": {
+      "message": "Nepodarilo sa spustiť aktualizáciu firmvéru pre verziu {version}"
+    },
+    "door_opened_recently": {
+      "message": "Dvere boli nedávno otvorené. Počkajte prosím {seconds} sekúnd pred ďalším otvorením."
+    },
+    "opening_failed_no_code": {
+      "message": "Otvorenie zlyhalo: nebol zadaný žiadny PIN kód, nie je uložený žiadny hlavný kód a nepodarilo sa vygenerovať jednorazový PIN."
+    },
+    "opening_failed_no_code_no_key": {
+      "message": "Otvorenie zlyhalo: nebol zadaný žiadny PIN kód, nie je uložený žiadny hlavný kód a nepodarilo sa vygenerovať jednorazový PIN (nie je k dispozícii konfiguračný kľúč)."
+    },
+    "hardware_unsupported": {
+      "message": "Funkcia {feature} vyžaduje Robobrocks v{required_hw} alebo vyššiu. Vaša aktuálna verzia je v{current_hw}."
+    },
+    "firmware_update_required": {
+      "message": "Funkcia {feature} vyžaduje verziu firmvéru {required_sw}. Vaša aktuálna verzia je {current_sw}."
+    },
+    "item_not_found": {
+      "message": "Položka nebola nájdená"
+    },
+    "operation_timed_out": {
+      "message": "Operácia vypršala po {seconds} sekundách."
+    },
+    "busy": {
+      "message": "Zariadenie zaneprázdnené: iná operácia už počúva oznámenia."
+    },
+    "lock_entity_not_found": {
+      "message": "Entita zámku nebola pre toto zariadenie nájdená."
+    },
+    "invalid_uid_format": {
+      "message": "Neplatný formát UID NFC."
+    },
+    "invalid_master_code_index": {
+      "message": "Neplatný index hlavného kódu (musí byť v rozmedzí 0 až 255)."
+    },
+    "nfc_tag_already_exists": {
+      "message": "Tento NFC tag je už na Robobrocks zaregistrovaný."
+    },
+    "maintenance_failed_msg": {
+      "message": "Údržba zlyhala: {error}"
+    },
+    "maintenance_error_title": {
+      "message": "Chyba údržby Robobrocks"
+    },
+    "maintenance_error_msg": {
+      "message": "Čistenie hlavných kódov zlyhalo na indexe {current_idx}.\nChyba: {error}"
+    },
+    "fw_hw_rev_unknown": {
+      "message": "Nepodarilo sa určiť internú revíziu firmvéru (ID hardvéru). Uistite sa, že je zariadenie dostupné."
+    },
+    "fw_hw_unsupported": {
+      "message": "Nepodporovaný hardvér alebo neznáma revízia: {revision}"
+    },
+    "fw_version_not_found": {
+      "message": "Verzia {version} nie je k dispozícii pre hardvér {revision}"
+    },
+    "fw_download_failed": {
+      "message": "Stiahnutie firmvéru zlyhalo: {status}"
+    },
+    "fw_downgrade_blocked": {
+      "message": "Nemožno generovať aktualizáciu pre verziu {target_version}, pretože je staršia ako aktuálne nainštalovaná verzia {current_version}. Downgrade nie je podporovaný."
+    },
+    "fw_update_package_ready_msg": {
+      "message": "Aktualizačný balík pre verziu {target_version} je pripravený:\n{url}"
+    },
+    "fw_update_package_ready_title": {
+      "message": "Aktualizácia Robobrocks {target_version} pripravená"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Interval dopytovania (minúty)",
+          "full_refresh_interval": "Interval úplného obnovenia (hodiny)",
+          "master_code": "Hlavný kód na otvorenie (voliteľné)",
+          "anonymize_logs": "Anonymizovať protokoly (Nahradí kľúče a kódy PIN fiktívnymi hodnotami)"
+        },
+        "description": "Nakonfigurujte, ako často sa Home Assistant pripája k Robobrocks pre aktualizáciu stavu."
+      }
+    }
+  },
+  "selector": {
+    "setup_method": {
+      "options": {
+        "cloud": "Cloudové prihlásenie (Automatické - vyžaduje platné údaje do oficiálnej aplikácie Robobrocks)",
+        "manual": "Ručné zadanie"
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "sync_logs": {
+        "name": "Synchronizovať protokoly"
+      }
+    },
+    "lock": {
+      "door": {
+        "name": "Dvere"
+      }
+    },
+    "sensor": {
+      "battery": {
+        "name": "Batéria"
+      },
+      "last_event": {
+        "name": "Posledná udalosť",
+        "state": {
+          "no_events": "Žiadne udalosti",
+          "code_ble_valid": "Použitý platný BLE kód",
+          "code_key_valid": "Použitý platný kód klávesnice",
+          "code_ble_invalid": "Neplatný BLE príkaz",
+          "code_key_invalid": "Použitý neplatný kód klávesnice",
+          "door_closed": "Dvere zatvorené",
+          "door_opened": "Dvere otvorené",
+          "history_erase": "História vymazaná",
+          "power_off": "Vypnutie",
+          "block_reset": "Reset bloku",
+          "power_on": "Zapnutie",
+          "ble_reboot": "Reštart BLE",
+          "scale_measure": "Priebežné meranie váhy",
+          "key_opening": "Otvorenie kľúčom",
+          "error": "Chyba (diagnostická)",
+          "nfc_opening": "Otvorenie NFC",
+          "nfc_tag_registering_scan": "Skenovanie NFC tagu",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (terciárny)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Neznáma udalosť",
+          "diagnostic_error_bc": "Interná chyba MFRC630 (0xBC)",
+          "diagnostic_error_integrity": "Chyba integrity (CRC/Parita)",
+          "diagnostic_error_no_tag": "Tag nedetekovaný / Vypršanie limitu",
+          "diagnostic_error_collision": "Detegovaná kolízia tagov",
+          "diagnostic_error_buffer": "Pretečenie vyrovnávacej pamäte",
+          "diagnostic_error_unknown": "Neznáma technická chyba",
+          "power_off_reason_1": "Hardvérový reset (PIN)",
+          "power_off_reason_2": "Watchdog (Automatický reštart)",
+          "power_off_reason_3": "Softvérový reštart",
+          "power_off_reason_4": "Zablokovanie systému (Lockup)",
+          "power_off_reason_5": "Zapnutie",
+          "power_off_reason_6": "Prebudenie NFC",
+          "power_off_reason_7": "Prebudenie po vypnutí systému",
+          "power_off_reason_8": "Prebudenie LPCOMP"
+        }
+      },
+      "master_codes_count": {
+        "name": "Hlavné kódy"
+      },
+      "single_use_codes_count": {
+        "name": "Jednorazové kódy"
+      },
+      "battery_format": {
+        "name": "Formát batérie",
+        "state": {
+          "measures-first-min-mean-max-last": "Detailný (Min/Priemer/Max)",
+          "measures-t1-t5-t10": "Detailný (T1/T5/T10)",
+          "measure-single": "Jednoduchý",
+          "unknown": "Neznámy",
+          "other": "Iný"
+        }
+      },
+      "battery_type": {
+        "name": "Typ batérie",
+        "state": {
+          "lsh14": "LSH14 (Lítiová)",
+          "8x_aaa": "8x AAA (Alkalické)",
+          "unknown": "Neznámy",
+          "other": "Iný"
+        }
+      },
+      "battery_level_first": {
+        "name": "Napätie batérie (prvé)"
+      },
+      "battery_level_min": {
+        "name": "Napätie batérie (min)"
+      },
+      "battery_level_mean": {
+        "name": "Napätie batérie (priemer)"
+      },
+      "battery_level_max": {
+        "name": "Napätie batérie (max)"
+      },
+      "battery_level_last": {
+        "name": "Napätie batérie (posledné)"
+      },
+      "battery_level_t1": {
+        "name": "Napätie batérie (T1)"
+      },
+      "battery_level_t5": {
+        "name": "Napätie batérie (T5)"
+      },
+      "battery_level_t10": {
+        "name": "Napätie batérie (T10)"
+      },
+      "maintenance_status": {
+        "name": "Stav údržby",
+        "state": {
+          "idle": "Nečinný",
+          "cleaning": "Čistenie hlavných kódov"
+        }
+      },
+      "log_count": {
+        "name": "Počet protokolov"
+      }
+    },
+    "todo": {
+      "parcels": {
+        "name": "Balíky"
+      }
+    },
+    "event": {
+      "logs": {
+        "name": "Protokoly",
+        "state": {
+          "code_ble_valid": "Použitý platný BLE kód",
+          "code_key_valid": "Použitý platný kód klávesnice",
+          "code_ble_invalid": "Neplatný BLE príkaz",
+          "code_key_invalid": "Použitý neplatný kód klávesnice",
+          "door_closed": "Dvere zatvorené",
+          "door_opened": "Dvere otvorené",
+          "history_erase": "História vymazaná",
+          "power_off": "Vypnutie",
+          "block_reset": "Reset bloku",
+          "power_on": "Zapnutie",
+          "ble_reboot": "Restart BLE",
+          "scale_measure": "Priebežné meranie váhy",
+          "key_opening": "Otvorenie kľúčom",
+          "error": "Chyba (diagnostická)",
+          "nfc_opening": "Otvorenie NFC",
+          "nfc_tag_registering_scan": "Skenovanie NFC tagu",
+          "nfc_tag_type_1": "La Poste",
+          "nfc_tag_type_2": "Vigik (terciárny)",
+          "nfc_tag_type_3": "Tag",
+          "unknown": "Neznáma udalosť"
+        }
+      }
+    },
+    "update": {
+      "firmware_update": {
+        "name": "Aktualizácia firmvéru"
+      }
+    }
+  },
+  "services": {
+    "add_parcel": {
+      "name": "Pridať balík",
+      "description": "Pridá nový balík do zoznamu",
+      "fields": {
+        "description": {
+          "name": "Popis",
+          "description": "Pridá k balíku popis",
+          "example": "Dodanie kníh"
+        }
+      }
+    },
+    "open_door": {
+      "name": "Otvoriť dvere",
+      "description": "Otvorí dvere Robobrocks, voliteľne pomocou PIN kódu.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód pre otvorenie (0-9, A, B).",
+          "example": "123456"
+        }
+      }
+    },
+    "add_master_code": {
+      "name": "Pridať hlavný kód",
+      "description": "Pridá nový hlavný kód k Robobrocks na konkrétny index. Prepíše akýkoľvek existujúci kód na tomto indexe.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód (0-9, A, B).",
+          "example": "1234AB"
+        },
+        "index": {
+          "name": "Index",
+          "description": "Index pamäte pre hlavný kód (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "delete_master_code": {
+      "name": "Zmazať hlavný kód",
+      "description": "Zmaže hlavný kód z Robobrocks pomocou jeho indexu.",
+      "fields": {
+        "index": {
+          "name": "Index",
+          "description": "Index hlavného kódu, ktorý sa má zmazať (0-255).",
+          "example": "2"
+        }
+      }
+    },
+    "add_single_code": {
+      "name": "Pridať jednorazový kód",
+      "description": "Pridá nový jednorazový kód k Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_single_code": {
+      "name": "Zmazať jednorazový kód",
+      "description": "Zmaže jednorazový kód z Robobrocks pomocou jeho hodnoty.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód (0-9, A, B), ktorý sa má zmazať.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "add_multi_code": {
+      "name": "Pridať viacúčelový kód",
+      "description": "Pridá nový viacúčelový kód k Robobrocks.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód (0-9, A, B).",
+          "example": "1234AB"
+        }
+      }
+    },
+    "delete_multi_code": {
+      "name": "Zmazať viacúčelový kód",
+      "description": "Smaže viacúčelový kód z Robobrocks pomocou jeho hodnoty.",
+      "fields": {
+        "code": {
+          "name": "PIN kód",
+          "description": "Šesťmiestny PIN kód (0-9, A, B), ktorý sa má zmazať.",
+          "example": "1234AB"
+        }
+      }
+    },
+    "clean_master_codes": {
+      "name": "Vyčistiť hlavné kódy",
+      "description": "Naskenuje a zmaže hlavné kódy v zadanom rozsahu indexov pre odstránenie duchov. Limit: 100 indexov na jeden beh.",
+      "fields": {
+        "start_index": {
+          "name": "Počiatočný index",
+          "description": "Index, od ktorého sa má začať s čistením (0-255)."
+        },
+        "range": {
+          "name": "Rozsah",
+          "description": "Počet indexov na naskenovanie (Max 100)."
+        }
+      }
+    },
+    "sync_logs": {
+      "name": "Synchronizovať protokoly",
+      "description": "Ručne načíta protokoly z Robobrocks a spustí súvisiace udalosti."
+    },
+    "set_configuration": {
+      "name": "Nastaviť konfiguráciu",
+      "description": "Zmení nastavenia konfigurácie Robobrocks (NFC, hardvér atď.).",
+      "fields": {
+        "laposte": {
+          "name": "La Poste (Vigik)",
+          "description": "Povolí alebo zakáže rozpoznávanie tagov La Poste."
+        }
+      }
+    },
+    "nfc_scan_start": {
+      "name": "Spustiť skenovanie NFC",
+      "description": "Spustí režim skenovania NFC tagov na 6 sekúnd."
+    },
+    "nfc_register_tag": {
+      "name": "Zaregistrovať NFC tag",
+      "description": "Zaregistruje NFC tag na zoznam povolených. PREDPOKLAD: Musíte najprv spustiť službu 'Spustiť skenovanie NFC' a naskenovať tag.",
+      "fields": {
+        "uid": {
+          "name": "UID tagu",
+          "description": "Unikátne ID tagu (napr. A1B2C3D4)."
+        },
+        "name": {
+          "name": "Priateľský názov",
+          "description": "Voliteľný názov pre uloženie do registra tagov HA."
+        }
+      }
+    },
+    "nfc_unregister_tag": {
+      "name": "Zrušiť registráciu NFC tagu",
+      "description": "Odstráni NFC tag zo zoznamu povolených Robobrocks.",
+      "fields": {
+        "uid": {
+          "name": "UID tagu",
+          "description": "Unikátne ID tagu, ktorý sa má odstrániť."
+        }
+      }
+    },
+    "ask_door_status": {
+      "name": "Skontrolovať stav dverí",
+      "description": "Ručne sa opýtať Robobrocks, či sú dvere otvorené alebo zatvorené."
+    },
+    "generate_update_package": {
+      "name": "Generovať aktualizačný balík",
+      "description": "Pripraví miestnu webovú stránku na aktualizáciu firmvéru Robobrocks cez Bluetooth.",
+      "fields": {
+        "version": {
+          "name": "Cieľová verzia",
+          "description": "Verzia firmvéru na stiahnutie (napr. 4.3.3)."
+        }
+      }
+    },
+    "delete_update_package": {
+      "name": "Vymazať aktualizačný balík",
+      "description": "Vymaže súbor firmvéru a rozhranie aktualizácie pre konkrétnu verziu.",
+      "fields": {
+        "version": {
+          "name": "Verzia",
+          "description": "Verzia firmvéru na vymazanie (napr. 4.2.0)"
+        }
+      }
+    },
+    "generate_pin_code": {
+      "name": "Vygenerovať PIN kód",
+      "description": "Vygeneruje PIN kód pomocou proprietárneho algoritmu Robobrocks.",
+      "fields": {
+        "type": {
+          "name": "Typ kódu",
+          "description": "Typ kódu na vygenerovanie (hlavný, jednorazový, viacnásobný)."
+        },
+        "index": {
+          "name": "Index",
+          "description": "Index generovania (začína na 0)."
+        }
+      }
+    }
+  }
+}
