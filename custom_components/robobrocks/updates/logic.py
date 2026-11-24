@@ -2,6 +2,7 @@
 import logging
 from typing import TYPE_CHECKING
 
+from homeassistant.components import persistent_notification
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.network import get_url
@@ -147,6 +148,6 @@ class RobobrocksUpdateController:
         await manager.async_delete_package(version)
 
         # Dismiss notification if it exists
-        self.hass.components.persistent_notification.async_dismiss(
-            f"{UPDATE_NOTIFICATION_ID_PREFIX}{version}"
+        persistent_notification.async_dismiss(
+            self.hass, f"{UPDATE_NOTIFICATION_ID_PREFIX}{version}"
         )

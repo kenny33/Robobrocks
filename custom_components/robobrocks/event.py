@@ -63,7 +63,9 @@ class RobobrocksLogEvent(CoordinatorEntity, EventEntity):
 
             # Get device_id for logbook integration
             device_registry = dr.async_get(self.hass)
-            device_entry = device_registry.async_get_device(identifiers={(DOMAIN, self._entry.data[CONF_ADDRESS])})
+            device_entry = device_registry.async_get_device_by_identifier(
+                (DOMAIN, self._entry.data[CONF_ADDRESS]), self._entry.entry_id
+            )
             device_id = device_entry.id if device_entry else None
 
             # Process new logs (already enriched by coordinator)

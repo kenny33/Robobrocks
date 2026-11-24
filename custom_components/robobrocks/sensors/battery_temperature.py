@@ -2,13 +2,12 @@
 import logging
 
 from homeassistant.components.sensor import (
-    EntityCategory,
     SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_ADDRESS, UnitOfTemperature
+from homeassistant.const import CONF_ADDRESS, EntityCategory, UnitOfTemperature
 
 from ..coordinator import RobobrocksDataUpdateCoordinator
 from ..entity import RobobrocksEntity

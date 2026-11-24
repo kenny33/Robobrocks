@@ -111,7 +111,8 @@ def _get_coordinator_by_device_id(hass: HomeAssistant, device_ids: str | list[st
     for device_id in device_ids:
         device = device_registry.async_get(device_id)
         if device:
-            for entry_id in device.config_entries:
+            # A device belongs to a single config entry (HA 2026.8+)
+            for entry_id in (device.config_entry_id,):
                 # 1. Try loaded coordinator
                 if entry_id in hass.data.get(DOMAIN, {}):
                     return hass.data[DOMAIN][entry_id]

@@ -153,7 +153,9 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
         if not info["internal_revision"]:
             _LOGGER.debug("Live fetch failed, trying Device Registry fallback...")
             dev_reg = dr.async_get(self.hass)
-            device_entry = dev_reg.async_get_device(identifiers={(DOMAIN, self.ble_device.address)})
+            device_entry = dev_reg.async_get_device_by_identifier(
+                (DOMAIN, self.ble_device.address), self.entry.entry_id
+            )
 
             if device_entry:
                 if not info["sw_version"]:
@@ -315,7 +317,9 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
 
         # Resolve real Device ID from registry
         device_registry = dr.async_get(self.hass)
-        device_entry = device_registry.async_get_device(identifiers={(DOMAIN, self.entry.data[CONF_ADDRESS])})
+        device_entry = device_registry.async_get_device_by_identifier(
+            (DOMAIN, self.entry.data[CONF_ADDRESS]), self.entry.entry_id
+        )
         real_device_id = device_entry.id if device_entry else None
 
         # Fire event with correct IDs
@@ -461,8 +465,8 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
     def _update_device_registry(self, device_info: dict):
         """Update Home Assistant device registry with hardware/software info."""
         device_registry = dr.async_get(self.hass)
-        device_entry = device_registry.async_get_device(
-            identifiers={(DOMAIN, self.entry.data[CONF_ADDRESS])},
+        device_entry = device_registry.async_get_device_by_identifier(
+            (DOMAIN, self.entry.data[CONF_ADDRESS]), self.entry.entry_id
         )
 
         if device_entry:

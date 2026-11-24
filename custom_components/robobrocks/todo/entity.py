@@ -117,7 +117,9 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
                 event_device_id = event.data.get("device_id")
                 if event_device_id:
                      device_registry = dr.async_get(self.hass)
-                     device_entry = device_registry.async_get_device(identifiers={(DOMAIN, self._entry.data[CONF_ADDRESS])})
+                     device_entry = device_registry.async_get_device_by_identifier(
+                         (DOMAIN, self._entry.data[CONF_ADDRESS]), self._entry.entry_id
+                     )
                      if device_entry and event_device_id == device_entry.id:
                          match = True
 
