@@ -24,7 +24,9 @@ Aucun changement fonctionnel : le protocole BLE, les commandes et la logique son
 
 - Liste de colis : un colis n'était pas rayé quand l'utilisation de son code arrivait par le
   relevé de fin de session Bluetooth (événement émis sans `config_entry_id` et avec un
-  mauvais `device_id`). Bug présent dans le code d'origine.
+  mauvais `device_id`), et le code utilisé était lu au mauvais endroit (`code` au lieu de
+  `extra_data.code`) : aucun colis n'était rayé automatiquement. Bugs présents dans le code
+  d'origine.
 
 ### Retiré
 - Icône et logo du projet d'origine.

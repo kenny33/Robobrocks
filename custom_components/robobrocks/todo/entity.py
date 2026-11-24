@@ -141,7 +141,8 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
                     # Check if this is a code usage event
                     event_type = log.get("event_type", "")
                     if event_type in ("code_ble_valid", "code_key_valid"):
-                        used_code = log.get("code")
+                        # Enriched logs carry the code in extra_data
+                        used_code = log.get("code") or (log.get("extra_data") or {}).get("code")
                         if used_code:
                             # Use Store to find matching items
                             matching_items = self._store.get_items_by_code(used_code)
