@@ -5,6 +5,14 @@
 Fork de l'intégration d'origine de thib3113 (dernière version connue : 1.3.0-pre10).
 Aucun changement fonctionnel : le protocole BLE, les commandes et la logique sont identiques.
 
+### Ajouté
+- Liste de colis : quand un colis est terminé (rayé automatiquement après usage du code, ou
+  coché à la main), son code à usage unique est supprimé de la boîte. Seuls les codes créés
+  par l'intégration en usage unique sont concernés : un code saisi à la main (par exemple un
+  code permanent) ou le code maître ne sont jamais supprimés. Si le colis est coché avant que
+  son code ait été envoyé, l'envoi est simplement annulé. Décocher un colis annule une
+  suppression encore en attente.
+
 ### Changé
 - Nouveau nom de projet et nouveau domaine Home Assistant : `boks` → `robobrocks`.
   Les services, événements, traductions et clés de stockage suivent le nouveau domaine

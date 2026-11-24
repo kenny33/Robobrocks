@@ -23,7 +23,9 @@ Robobrocks est un projet indépendant, sans lien avec ce fabricant.
 - Capteurs : batterie, température de la batterie, nombre de codes, nombre de journaux,
   dernier événement, état de maintenance, diagnostics batterie.
 - Bouton de synchronisation des journaux, entité `event` pour l'historique, liste
-  de colis (`todo`).
+  de colis (`todo`). Un colis ajouté sans code reçoit un code à usage unique ; quand le
+  colis est rayé (code utilisé) ou coché à la main, ce code est supprimé de la boîte.
+  Les codes saisis à la main et les codes permanents ne sont jamais supprimés.
 - Services `robobrocks.*` : gestion des codes (maître, usage unique, multi-usage),
   badges NFC, configuration, synchronisation des journaux, génération de code PIN,
   paquets de mise à jour du firmware.

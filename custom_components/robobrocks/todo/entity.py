@@ -18,7 +18,7 @@ from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from ..const import DOMAIN, EVENT_LOGS_RETRIEVED, EVENT_PARCEL_COMPLETED
+from ..const import CONF_MASTER_CODE, DOMAIN, EVENT_LOGS_RETRIEVED, EVENT_PARCEL_COMPLETED
 from ..coordinator import RobobrocksDataUpdateCoordinator
 from ..parcels.utils import format_parcel_item, generate_random_code, parse_parcel_string
 from .storage import RobobrocksParcelStore
@@ -57,6 +57,8 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
         self._attr_unique_id = f"{entry.data[CONF_ADDRESS]}_parcels"
         self._has_config_key = has_config_key
         self._unsub_timer = None
+        # Serializes background code sync/deletion runs (timer + on-demand)
+        self._sync_lock = asyncio.Lock()
 
     @property
     def translation_placeholders(self) -> dict[str, str]:
@@ -152,6 +154,7 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
 
                                     # Update status via Store
                                     await self._store.update_raw_item(raw_item["uid"], {"status": TodoItemStatus.COMPLETED})
+                                    await self._schedule_code_deletion(raw_item["uid"])
                                     changed = True
 
                                     _, description = parse_parcel_string(raw_item["summary"])
@@ -163,10 +166,97 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
 
                 if changed:
                     self.async_write_ha_state()
+                    if self._has_config_key:
+                        self.hass.async_create_task(self._check_pending_codes())
         except Exception as e:
             _LOGGER.exception("Error handling log event: %s", e)
+    async def _schedule_code_deletion(self, uid: str) -> None:
+        """Queue deletion of a parcel's code on the device, if it is safe to do so.
+
+        Only codes this integration created itself as single-use codes are deleted,
+        so a code typed manually (e.g. a permanent/master code) is never touched.
+        """
+        raw_item = self._store.get_raw_item(uid)
+        if not raw_item:
+            return
+
+        code = raw_item.get("parcel_code")
+
+        if raw_item.get("pending_sync_code"):
+            # Code never reached the device: just cancel the pending creation
+            _LOGGER.info("Parcel %s completed before its code was synced. Cancelling sync.", code)
+            await self._remove_pending_status(uid)
+            return
+
+        if not code or not raw_item.get("created_single_use"):
+            return
+
+        master_code = (self._entry.data.get(CONF_MASTER_CODE) or "").strip().upper()
+        if code.upper() == master_code:
+            _LOGGER.warning("Parcel code %s matches the master code. Not deleting it.", code)
+            return
+
+        _LOGGER.info("Parcel %s completed. Scheduling deletion of its single-use code.", code)
+        await self._store.update_raw_item(uid, {"pending_delete_code": code})
+
+    async def _cancel_code_deletion(self, uid: str) -> None:
+        """Cancel a queued code deletion (item set back to needs action)."""
+        raw_item = self._store.get_raw_item(uid)
+        if raw_item and raw_item.get("pending_delete_code"):
+            _LOGGER.info("Parcel %s reopened. Cancelling pending code deletion.", raw_item["pending_delete_code"])
+            await self._store.remove_metadata_field(uid, "pending_delete_code")
+            await self._store.remove_metadata_field(uid, "delete_retry_count")
+
     async def _check_pending_codes(self, now=None) -> None:
         """Periodic task to sync pending codes to Robobrocks."""
+        async with self._sync_lock:
+            await self._sync_pending_codes()
+            await self._delete_pending_codes()
+
+    async def _delete_pending_codes(self) -> None:
+        """Delete single-use codes of completed parcels from the device."""
+        pending_items = [
+            item for item in self._store.raw_data
+            if item.get("pending_delete_code")
+        ]
+
+        for raw_item in pending_items:
+            uid = raw_item["uid"]
+            code = raw_item["pending_delete_code"]
+            retry_count = raw_item.get("delete_retry_count", 0)
+
+            if retry_count >= 5:
+                _LOGGER.warning("Aborting deletion of code %s (Item %s) after %d failed attempts.", code, uid, retry_count)
+                await self._store.remove_metadata_field(uid, "pending_delete_code")
+                await self._store.remove_metadata_field(uid, "delete_retry_count")
+                continue
+
+            try:
+                await self.coordinator.ble_device.connect()
+                if not self.coordinator.ble_device.is_connected:
+                    break
+
+                # Any answer from the device closes the request: the firmware often
+                # reports an error even when the code is gone, and retrying would
+                # delete other single-use codes.
+                deleted = await self.coordinator.ble_device.delete_pin_code("single", code)
+                if deleted:
+                    _LOGGER.info("Deleted single-use code %s of completed parcel.", code)
+                else:
+                    _LOGGER.info("Device reported an error deleting code %s (already used or removed).", code)
+
+                await self._store.remove_metadata_field(uid, "pending_delete_code")
+                await self._store.remove_metadata_field(uid, "delete_retry_count")
+                await self._store.remove_metadata_field(uid, "created_single_use")
+
+            except Exception as e:
+                _LOGGER.error("Failed to delete code %s: %s", code, e)
+                await self._store.update_raw_item(uid, {"delete_retry_count": retry_count + 1})
+            finally:
+                await asyncio.shield(self.coordinator.ble_device.disconnect())
+
+    async def _sync_pending_codes(self) -> None:
+        """Create pending parcel codes on the device."""
         pending_items = [
             item for item in self._store.raw_data
             if item.get("pending_sync_code")
@@ -192,6 +282,8 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
 
                 await self.coordinator.ble_device.create_pin_code(code, "single")
                 _LOGGER.info("Successfully synced pending code %s to Robobrocks.", code)
+                # Mark the code as created by us as single-use: only these are deleted later
+                await self._store.update_raw_item(uid, {"created_single_use": True})
                 await self._remove_pending_status(uid)
 
             except Exception as e:
@@ -294,8 +386,13 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
                  if raw_item.get("pending_sync_code"):
                      _LOGGER.info("Code changed manually. Removing pending sync for %s.", old_code)
                      await self._store.remove_metadata_field(item.uid, "pending_sync_code")
+                 # The new code was not created by us: never delete it automatically
+                 await self._store.remove_metadata_field(item.uid, "created_single_use")
+                 await self._store.remove_metadata_field(item.uid, "pending_delete_code")
 
              item.summary = format_parcel_item(new_code, new_desc)
+
+        previous_status = existing_item.status
 
         # Merge updates (TodoItem fields are optional/partial in updates)
         if item.status is not None:
@@ -308,6 +405,16 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
             existing_item.description = item.description
 
         await self._store.update_item(existing_item)
+
+        # Manually checked / unchecked: delete the code or cancel a queued deletion
+        if previous_status != existing_item.status:
+            if existing_item.status == TodoItemStatus.COMPLETED:
+                await self._schedule_code_deletion(item.uid)
+                if self._has_config_key:
+                    self.hass.async_create_task(self._check_pending_codes())
+            elif existing_item.status == TodoItemStatus.NEEDS_ACTION:
+                await self._cancel_code_deletion(item.uid)
+
         self.async_write_ha_state()
 
     async def async_delete_todo_items(self, uids: list[str]) -> None:
