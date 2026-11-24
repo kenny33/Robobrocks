@@ -12,6 +12,7 @@ from datetime import datetime
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.storage import Store
+from homeassistant.util import dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -75,6 +76,19 @@ class RobobrocksPermanentCodeStore:
         """Rename a slot."""
         self._slots[index]["label"] = label.strip()
         await self._save()
+
+    async def mark_used(self, index: int, timestamp: float) -> bool:
+        """Record a use of the slot. Return False if this use was already recorded."""
+        slot = self._slots[index]
+        # Log times are rebuilt from the entry age at download time, so the same entry
+        # read twice can differ by a second or two.
+        if timestamp and timestamp <= slot.get("last_used_ts", 0) + 5:
+            return False
+        when = dt_util.as_local(dt_util.utc_from_timestamp(timestamp)) if timestamp else dt_util.now()
+        slot["last_used_ts"] = timestamp or when.timestamp()
+        slot["last_used"] = when.isoformat(timespec="seconds")
+        await self._save()
+        return True
 
     async def remove_slot(self, index: int) -> None:
         """Remove a slot."""

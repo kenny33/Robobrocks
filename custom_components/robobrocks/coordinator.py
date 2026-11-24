@@ -27,6 +27,7 @@ from .const import (
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     EVENT_LOGS_RETRIEVED,
+    EVENT_PERMANENT_CODE_USED,
     ROBOBROCKS_HARDWARE_INFO,
     TIMEOUT_BLE_CONNECTION,
 )
@@ -279,10 +280,35 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
 
         if event_data["logs"]:
             self.hass.bus.async_fire(EVENT_LOGS_RETRIEVED, event_data)
+            await self._handle_permanent_code_usage(event_data)
             self.data["latest_logs"] = event_data["logs"]
             self.data["last_log_fetch_ts"] = datetime.now().isoformat()
             self.async_set_updated_data(self.data)
 
+
+    async def _handle_permanent_code_usage(self, event_data: dict) -> None:
+        """Fire an event when a log shows a code from the permanent code registry."""
+        for log in event_data["logs"]:
+            if log.get("event_type") not in ("code_ble_valid", "code_key_valid"):
+                continue
+            code = (log.get("extra_data") or {}).get("code")
+            index = self.permanent_codes.find_code(code) if code else None
+            if index is None:
+                continue
+            timestamp = log.get("timestamp") or 0
+            # The same log can arrive twice (pushed at end of session, then downloaded)
+            if not await self.permanent_codes.mark_used(index, timestamp):
+                continue
+            slot = self.permanent_codes.get(index)
+            _LOGGER.info("Permanent code of slot %d (%s) used.", index, slot["label"])
+            self.hass.bus.async_fire(EVENT_PERMANENT_CODE_USED, {
+                "device_id": event_data.get("device_id"),
+                "config_entry_id": self.entry.entry_id,
+                "slot": index,
+                "code": slot["code"],
+                "label": slot["label"],
+                "timestamp": slot["last_used"],
+            })
 
     async def async_sync_logs(self, update_state: bool = True) -> dict:
         """
@@ -338,6 +364,7 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
             "logs": enriched_logs
         }
         self.hass.bus.async_fire(EVENT_LOGS_RETRIEVED, event_data)
+        await self._handle_permanent_code_usage(event_data)
 
         # Final checks
         if has_power_on:

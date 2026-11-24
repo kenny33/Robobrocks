@@ -57,7 +57,26 @@ dans Home Assistant : numéro, code et libellé.
 - **Supprimer un code** : dans la boîte et dans le registre, ou dans le registre seulement.
 - **Réécrire tous les codes sur la boîte** : après une réinitialisation de la boîte.
 
-L'écran affiche aussi le nombre de codes permanents que déclare la boîte, pour repérer un écart.
+L'écran affiche aussi le nombre de codes permanents que déclare la boîte, pour repérer un écart,
+et la date de dernière utilisation de chaque slot.
+
+Quand les journaux de la boîte montrent qu'un code du registre a été utilisé, Robobrocks émet
+l'événement `robobrocks_permanent_code_used` avec `slot`, `code`, `label`, `timestamp` (heure
+d'utilisation d'après la boîte), `device_id` et `config_entry_id`. Comme pour les colis,
+l'événement arrive au relevé des journaux, donc avec jusqu'à 10 minutes de retard. Exemple :
+
+```yaml
+triggers:
+  - trigger: event
+    event_type: robobrocks_permanent_code_used
+    event_data:
+      label: Amazon
+actions:
+  - action: notify.notify
+    data:
+      message: "📦 Colis Amazon déposé ({{ trigger.event.data.timestamp[11:16] }})"
+```
+
 Le registre est stocké dans `/config/.storage/robobrocks_permanent_codes_<adresse>` et inclus
 dans les sauvegardes. Comme il est lié à l'adresse Bluetooth de la boîte, il est retrouvé
 même si l'intégration est supprimée puis ajoutée à nouveau. Un code du registre n'est jamais

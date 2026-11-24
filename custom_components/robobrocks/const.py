@@ -18,6 +18,7 @@ DEFAULT_FULL_REFRESH_INTERVAL = 12
 EVENT_LOG = f"{DOMAIN}_log_entry"
 EVENT_PARCEL_COMPLETED = f"{DOMAIN}_parcel_completed"
 EVENT_LOGS_RETRIEVED = f"{DOMAIN}_logs_retrieved"
+EVENT_PERMANENT_CODE_USED = f"{DOMAIN}_permanent_code_used"
 
 class RobobrocksChipset(StrEnum):
     """Robobrocks Chipset Models."""

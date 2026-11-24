@@ -115,6 +115,7 @@ class RobobrocksOptionsFlowHandler(config_entries.OptionsFlow):
         store = coordinator.permanent_codes
         lines = [
             f"- {index} : **{slot['code']}** {slot['label']}"
+            + (f" ({slot['last_used'][:16].replace('T', ' ')})" if slot.get("last_used") else "")
             for index, slot in store.slots.items()
         ]
         box_count = (coordinator.data or {}).get("master")

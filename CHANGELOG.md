@@ -15,7 +15,9 @@ Aucun changement fonctionnel : le protocole BLE, les commandes et la logique son
 - Registre des codes permanents dans les options de l'intégration (menu « Codes permanents ») :
   enregistrer un code existant sans rien envoyer, créer, renommer, supprimer, réécrire tous
   les codes sur la boîte. Le registre est lié à l'adresse Bluetooth de la boîte. Un code du
-  registre n'est jamais supprimé par la liste de colis. Les options de l'intégration s'ouvrent
+  registre n'est jamais supprimé par la liste de colis. Utiliser un code du registre émet
+  l'événement `robobrocks_permanent_code_used` (slot, code, libellé, heure) et met à jour la
+  date de dernière utilisation du slot. Les options de l'intégration s'ouvrent
   maintenant sur un menu (« Paramètres » / « Codes permanents »).
 
 ### Changé
