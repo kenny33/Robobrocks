@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Interwał odpytywania (minuty)",
           "full_refresh_interval": "Interwał pełnego odświeżania (godziny)",

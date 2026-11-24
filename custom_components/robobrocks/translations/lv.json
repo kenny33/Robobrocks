@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Aptaujas intervāls (minūtes)",
           "full_refresh_interval": "Pilna atjaunināšanas intervāls (stundas)",

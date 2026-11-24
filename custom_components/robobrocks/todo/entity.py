@@ -196,6 +196,10 @@ class RobobrocksParcelTodoList(CoordinatorEntity, TodoListEntity):
             _LOGGER.warning("Parcel code %s matches the master code. Not deleting it.", code)
             return
 
+        if self.coordinator.permanent_codes.find_code(code) is not None:
+            _LOGGER.warning("Parcel code %s is a registered permanent code. Not deleting it.", code)
+            return
+
         _LOGGER.info("Parcel %s completed. Scheduling deletion of its single-use code.", code)
         await self._store.update_raw_item(uid, {"pending_delete_code": code})
 

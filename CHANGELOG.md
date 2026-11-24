@@ -12,6 +12,11 @@ Aucun changement fonctionnel : le protocole BLE, les commandes et la logique son
   code permanent) ou le code maître ne sont jamais supprimés. Si le colis est coché avant que
   son code ait été envoyé, l'envoi est simplement annulé. Décocher un colis annule une
   suppression encore en attente.
+- Registre des codes permanents dans les options de l'intégration (menu « Codes permanents ») :
+  enregistrer un code existant sans rien envoyer, créer, renommer, supprimer, réécrire tous
+  les codes sur la boîte. Le registre est lié à l'adresse Bluetooth de la boîte. Un code du
+  registre n'est jamais supprimé par la liste de colis. Les options de l'intégration s'ouvrent
+  maintenant sur un menu (« Paramètres » / « Codes permanents »).
 
 ### Changé
 - Nouveau nom de projet et nouveau domaine Home Assistant : `boks` → `robobrocks`.

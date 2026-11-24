@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Lekérdezési időköz (perc)",
           "full_refresh_interval": "Teljes frissítési időköz (óra)",

@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Intervalle de mise à jour (minutes)",
           "full_refresh_interval": "Intervalle de rafraîchissement complet (heures)",
@@ -317,7 +317,74 @@
           "anonymize_logs": "Anonymiser les logs (Remplace les clés et PINs par des valeurs factices)"
         },
         "description": "Configurez la fréquence à laquelle Home Assistant se connecte à la Robobrocks pour mettre à jour le statut."
+      },
+      "init": {
+        "title": "Options Robobrocks",
+        "menu_options": {
+          "settings": "Paramètres",
+          "permanent_codes": "Codes permanents"
+        }
+      },
+      "permanent_codes": {
+        "title": "Codes permanents",
+        "description": "Slots enregistrés dans Home Assistant ({registry_count}), la boîte déclare {box_count} code(s) permanent(s) :\n\n{slots}\n\nLa boîte ne sait pas lister ses codes : ce registre est le seul endroit où ils sont conservés. Il est inclus dans les sauvegardes Home Assistant.",
+        "menu_options": {
+          "pc_add": "Créer un code sur la boîte",
+          "pc_import": "Enregistrer un code existant (rien n'est envoyé à la boîte)",
+          "pc_rename": "Renommer un slot",
+          "pc_delete": "Supprimer un code",
+          "pc_restore": "Réécrire tous les codes sur la boîte"
+        }
+      },
+      "pc_add": {
+        "title": "Créer un code permanent",
+        "description": "Le code est écrit dans la boîte, dans le slot choisi, puis enregistré. Laisse le code vide pour en générer un au hasard.{error}",
+        "data": {
+          "slot": "Slot",
+          "code": "Code (6 caractères 0-9, A, B)",
+          "label": "Libellé"
+        }
+      },
+      "pc_import": {
+        "title": "Enregistrer un code existant",
+        "description": "Pour un code déjà présent dans la boîte. Rien n'est envoyé à la boîte.",
+        "data": {
+          "slot": "Slot",
+          "code": "Code (6 caractères 0-9, A, B)",
+          "label": "Libellé"
+        }
+      },
+      "pc_rename": {
+        "title": "Renommer un slot",
+        "data": {
+          "slot": "Slot",
+          "label": "Nouveau libellé"
+        }
+      },
+      "pc_delete": {
+        "title": "Supprimer un code permanent",
+        "description": "Décoche la case pour retirer le code du registre seulement (par exemple s'il n'existe plus dans la boîte).{error}",
+        "data": {
+          "slot": "Slot",
+          "delete_on_box": "Le supprimer aussi dans la boîte"
+        }
+      },
+      "pc_restore": {
+        "title": "Réécrire tous les codes",
+        "description": "Les {count} code(s) enregistré(s) vont être écrits dans la boîte, chacun dans son slot. À utiliser après une réinitialisation de la boîte."
       }
+    },
+    "error": {
+      "slot_in_use": "Ce slot est déjà enregistré. Supprime-le d'abord.",
+      "code_in_use": "Ce code est déjà enregistré dans un autre slot.",
+      "invalid_code_format": "Code invalide (6 caractères parmi 0-9, A, B).",
+      "box_error": "La boîte a refusé l'opération ou est injoignable."
+    },
+    "abort": {
+      "not_loaded": "L'intégration n'est pas chargée. Réessaie quand la boîte est disponible.",
+      "pc_added": "Code {code} créé dans le slot {slot}.",
+      "pc_deleted": "Slot {slot} supprimé.",
+      "pc_restored": "{ok} code(s) écrit(s). Slots en échec : {failed}."
     }
   },
   "selector": {

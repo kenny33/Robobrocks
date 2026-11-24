@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "فاصل الاستقصاء (بالدقائق)",
           "full_refresh_interval": "فاصل التحديث الكامل (بالساعات)",

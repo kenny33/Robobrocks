@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Kyselyväli (minuuttia)",
           "full_refresh_interval": "Täysi päivitysväli (tuntia)",

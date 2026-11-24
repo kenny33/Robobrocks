@@ -80,6 +80,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER.debug("Updated config entry options with defaults: %s", options_update)
 
     coordinator = RobobrocksDataUpdateCoordinator(hass, entry)
+    await coordinator.permanent_codes.load()
 
     try:
         await coordinator.async_config_entry_first_refresh()

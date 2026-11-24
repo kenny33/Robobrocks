@@ -17,6 +17,7 @@ from homeassistant.helpers.update_coordinator import (
 
 from .ble import RobobrocksBluetoothDevice
 from .codes.codes_controller import RobobrocksCodesController
+from .codes.permanent_store import RobobrocksPermanentCodeStore
 from .commands.commands_controller import RobobrocksCommandsController
 from .const import (
     CONF_ANONYMIZE_LOGS,
@@ -56,6 +57,7 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
         self.updates = RobobrocksUpdateController(hass, self)
         self.nfc = RobobrocksNfcController(hass, self)
         self.codes = RobobrocksCodesController(hass, self)
+        self.permanent_codes = RobobrocksPermanentCodeStore(hass, entry.data[CONF_ADDRESS])
         self.parcels = RobobrocksParcelsController(hass, self)
         self.commands = RobobrocksCommandsController(hass, self)
         self.pin_generator = RobobrocksPinGenerator(entry.data.get(CONF_MASTER_KEY))

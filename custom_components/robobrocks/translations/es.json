@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Intervalo de sondeo (minutos)",
           "full_refresh_interval": "Intervalo de actualización completa (horas)",

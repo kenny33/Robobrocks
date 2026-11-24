@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Interval de interogare (minute)",
           "full_refresh_interval": "Interval de reîmprospătare completă (ore)",

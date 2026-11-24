@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Interval dotazování (minuty)",
           "full_refresh_interval": "Interval úplného obnovení (hodiny)",

@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Polling Interval (minuten)",
           "full_refresh_interval": "Volledig Verversingsinterval (uren)",

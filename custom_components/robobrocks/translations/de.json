@@ -309,7 +309,7 @@
   },
   "options": {
     "step": {
-      "init": {
+      "settings": {
         "data": {
           "scan_interval": "Abfrageintervall (Minuten)",
           "full_refresh_interval": "Intervall für vollständige Aktualisierung (Stunden)",

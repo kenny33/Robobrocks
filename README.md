@@ -34,11 +34,34 @@ Robobrocks est un projet indépendant, sans lien avec ce fabricant.
   de colis (`todo`). Un colis ajouté sans code reçoit un code à usage unique ; quand le
   colis est rayé (code utilisé) ou coché à la main, ce code est supprimé de la boîte.
   Les codes saisis à la main et les codes permanents ne sont jamais supprimés.
+- Registre des codes permanents (voir ci-dessous).
 - Services `robobrocks.*` : gestion des codes (maître, usage unique, multi-usage),
   badges NFC, configuration, synchronisation des journaux, génération de code PIN,
   paquets de mise à jour du firmware.
 
 Version minimale de Home Assistant : **2026.8.0**.
+
+## Codes permanents
+
+La boîte range ses codes permanents dans des emplacements numérotés (slots). Elle sait dire
+combien elle en contient, mais pas lesquels. Robobrocks tient donc un **registre** des slots
+dans Home Assistant : numéro, code et libellé.
+
+**Paramètres → Appareils et services → Robobrocks → Configurer → Codes permanents** :
+
+- **Enregistrer un code existant** : pour les codes déjà présents dans la boîte. Rien n'est
+  envoyé à la boîte. À faire une fois pour chaque code créé avant Robobrocks.
+- **Créer un code sur la boîte** : écrit le code dans le slot choisi (par défaut le premier
+  slot libre à partir de 1), puis l'enregistre. Laisser le code vide pour en générer un au hasard.
+- **Renommer un slot** : change seulement le libellé.
+- **Supprimer un code** : dans la boîte et dans le registre, ou dans le registre seulement.
+- **Réécrire tous les codes sur la boîte** : après une réinitialisation de la boîte.
+
+L'écran affiche aussi le nombre de codes permanents que déclare la boîte, pour repérer un écart.
+Le registre est stocké dans `/config/.storage/robobrocks_permanent_codes_<adresse>` et inclus
+dans les sauvegardes. Comme il est lié à l'adresse Bluetooth de la boîte, il est retrouvé
+même si l'intégration est supprimée puis ajoutée à nouveau. Un code du registre n'est jamais
+supprimé par la liste de colis.
 
 ## Installation (HACS)
 
