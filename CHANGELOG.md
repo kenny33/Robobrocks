@@ -3,7 +3,8 @@
 ## [1.4.0] — 2026-11-24 — fork Robobrocks
 
 Fork de l'intégration d'origine de thib3113 (dernière version connue : 1.3.0-pre10).
-Aucun changement fonctionnel : le protocole BLE, les commandes et la logique sont identiques.
+Le protocole BLE et les commandes envoyées à la boîte sont inchangés. Les ajouts fonctionnels
+sont listés ci-dessous.
 
 ### Ajouté
 - Liste de colis : quand un colis est terminé (rayé automatiquement après usage du code, ou
