@@ -22,5 +22,9 @@ Aucun changement fonctionnel : le protocole BLE, les commandes et la logique son
 - Suppression d'un paquet de mise à jour : l'appel à `hass.components.persistent_notification`,
   qui n'existe plus dans HA, est remplacé par `persistent_notification.async_dismiss`.
 
+- Liste de colis : un colis n'était pas rayé quand l'utilisation de son code arrivait par le
+  relevé de fin de session Bluetooth (événement émis sans `config_entry_id` et avec un
+  mauvais `device_id`). Bug présent dans le code d'origine.
+
 ### Retiré
 - Icône et logo du projet d'origine.

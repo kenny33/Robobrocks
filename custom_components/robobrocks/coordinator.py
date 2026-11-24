@@ -256,8 +256,14 @@ class RobobrocksDataUpdateCoordinator(DataUpdateCoordinator):
         except Exception:
             translations = {}
 
+        device_registry = dr.async_get(self.hass)
+        device_entry = device_registry.async_get_device_by_identifier(
+            (DOMAIN, self.entry.data[CONF_ADDRESS]), self.entry.entry_id
+        )
+
         event_data = {
-            "device_id": self.entry.entry_id,
+            "device_id": device_entry.id if device_entry else None,
+            "config_entry_id": self.entry.entry_id,
             "address": self.entry.data[CONF_ADDRESS],
             "logs": []
         }
