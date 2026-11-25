@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.4.1] — 2026-11-25
+
+### Changé
+- Licence : Apache 2.0 (au lieu de GNU GPL v3).
+
 ## [1.4.0] — 2026-11-24 — fork Robobrocks
 
 Fork de l'intégration d'origine de thib3113 (dernière version connue : 1.3.0-pre10).
