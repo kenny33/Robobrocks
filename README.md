@@ -13,7 +13,7 @@ et corrige la compatibilité avec les versions récentes de Home Assistant.
 
 Distribué sous licence **Apache 2.0** (voir [LICENSE](LICENSE)).
 
-Code d'origine © thib3113. Modifications du fork © 2026 David Legros.
+Code d'origine © thib3113.
 Les fichiers modifiés par rapport au projet d'origine sont décrits dans le
 [CHANGELOG](CHANGELOG.md).
 
